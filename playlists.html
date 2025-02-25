@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muse-ic - Playlists</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="index.html">All Songs</a></li>
+        <li><a href="artists.html">Artists</a></li>
+        <li><a href="playlists.html">Playlists</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <h1>Muse-ic - Playlists</h1>
+    <label for="sort">Sort by:</label>
+    <select id="sort">
+      <option value="artist">Artist</option>
+      <option value="song">Song</option>
+      <option value="year">Year</option>
+    </select>
+    <button onclick="sortItems()">Sort</button>
+      
+    <div id="artists-collection" class="grid"></div>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
