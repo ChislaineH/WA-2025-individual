@@ -20,7 +20,10 @@
   </header>
   
   <main>
-    <h1>Artists</h1>
+    <h1 id="artist-name"></h1>
+    
+    <!-- TODO: INSERT ARTIST IMAGE -->
+    <img id="artist-img" src="" alt="Artist image">
 
     <!-- Sorting -->
     <!-- TODO: ADD SORTING FUNCTIONALITY -->
@@ -31,10 +34,21 @@
       <option value="year">Year</option>
     </select>
     <button onclick="sortItems()">Sort</button>
-      
-    <div id="artists-container" class="cards-container"></div>
+
+    <!-- Table with all songs of the artist -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Other Artist(s)</th>
+          <th>Year</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody id="artist-songs-list"></tbody>
+    </table>
   </main>
 
-  <script type="module" src="artists.js"></script>
+  <script type="module" src="artist-songs.js"></script>
 </body>
 </html>
