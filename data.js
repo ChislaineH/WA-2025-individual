@@ -222,3 +222,5 @@ const songs = [
     duration: 2.09,
   }
 ];
+
+export default songs;

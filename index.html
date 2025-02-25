@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Music - All Songs</title>
+  <title>Muse-ic - All Songs</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
+    <!-- TODO: Insert img -->
+    <img src="logo.png" alt="Muse-ic logo">
     <nav>
       <ul>
         <li><a href="index.html">All Songs</a></li>
@@ -17,20 +19,38 @@
     </nav>
   </header>
   
-  <main>
-    <h1>Music - All Songs</h1>
-    <label for="sort">Sort by:</label>
-    <select id="sort">
-      <option value="artist">Artist</option>
-      <option value="song">Song</option>
-      <option value="year">Year</option>
-    </select>
-    <button onclick="sortItems()">Sort</button>
-      
-    <div id="collection" class="grid"></div>
+  <main id="content">
+    <section id="songs">
+      <h1>Muse-ic - All Songs</h1>
+
+      <!-- Sorting -->
+      <!-- TODO: ADD SORTING FUNCTIONALITY -->
+      <label for="sort">Sort by:</label>
+      <select id="sort">
+        <option value="artist">Artist</option>
+        <option value="song">Song</option>
+        <option value="year">Year</option>
+      </select>
+      <button onclick="sortItems()">Sort</button>
+
+      <!-- Table with all songs -->
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Artist</th>
+            <th>Year</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody id="songs-list"></tbody>
+      </table>
+    </section>
+
   </main>
 
   <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
