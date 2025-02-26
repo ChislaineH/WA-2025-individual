@@ -21,20 +21,22 @@
   <main>
     <h1>Playlists</h1>
 
-    <!-- Sorting -->
-    <!-- TODO: ADD SORTING FUNCTIONALITY -->
-    <label for="sort">Sort by:</label>
-    <select id="sort">
-      <option value="artist">Artist</option>
-      <option value="song">Song</option>
-      <option value="year">Year</option>
-    </select>
-    <button onclick="sortItems()">Sort</button>
-
-    <form id="add-playlist-form">
+    <!-- Add playlist form -->
+    <form id="playlist-form">
       <input type="text" id="playlist-name" placeholder="Playlist Name" required>
       <button type="submit">Add Playlist</button>
     </form>
+
+    <!-- Search -->
+    <input type="text" id="search" placeholder="Search playlists...">
+
+    <!-- Sorting -->
+    <label for="sort">Sort by:</label>
+    <select id="sort">
+      <option value="last-added">Last added</option>
+      <option value="name-asc">Name A-Z</option>
+      <option value="name-desc">Name Z-A</option>
+    </select>
       
     <div id="playlists-container" class="cards-container"></div>
   </main>
