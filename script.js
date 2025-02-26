@@ -8,6 +8,7 @@ function loadSongs() {
       <td>TODO: INSERT IMAGE</td>
       <td>${song.name}</td>
       <td>${song.artist}</td>
+      <td>${song.otherArtist || "-"}</td>
       <td>${song.year}</td>
       <td>${song.duration}</td>
     `;
