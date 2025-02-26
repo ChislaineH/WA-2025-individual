@@ -8,10 +8,7 @@
 </head>
 <body>
   <header>
-<<<<<<< Updated upstream
-=======
-    <img src="/img/logo-muse-ic.jpg" alt="Muse-ic logo" id="logo">
->>>>>>> Stashed changes
+    <img src="img/logo-muse-ic.jpg" alt="Muse-ic logo" id="logo">
     <nav>
       <ul>
         <li><a href="index.html">All Songs</a></li>
@@ -22,7 +19,13 @@
   </header>
   
   <main>
-    <h1>Muse-ic - Artists</h1>
+    <h1 id="artist-name"></h1>
+
+    <!-- TODO: INSERT ARTIST IMAGE -->
+    <img id="artist-img" src="" alt="Artist image">
+
+    <!-- Sorting -->
+    <!-- TODO: ADD SORTING FUNCTIONALITY -->
     <label for="sort">Sort by:</label>
     <select id="sort">
       <option value="artist">Artist</option>
@@ -30,11 +33,21 @@
       <option value="year">Year</option>
     </select>
     <button onclick="sortItems()">Sort</button>
-      
-    <div id="artists-collection" class="grid"></div>
+
+    <!-- Table with all songs of the artist -->
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Other Artist(s)</th>
+          <th>Year</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      <tbody id="artist-songs-list"></tbody>
+    </table>
   </main>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="artist-songs.js"></script>
 </body>
 </html>
