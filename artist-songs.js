@@ -22,7 +22,7 @@ function loadArtistSongs() {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${song.name}</td>
-      <td>${song.otherArtist}</td>
+      <td>${song.otherArtist || "-"}</td>
       <td>${song.year}</td>
       <td>${song.duration}</td>
     `;
