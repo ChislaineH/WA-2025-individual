@@ -7,6 +7,8 @@ function getArtistFromURL() {
 
 function loadArtistSongs() {
   const artist = getArtistFromURL();
+  const urlParams = new URLSearchParams(window.location.search);
+  const imageUrl = urlParams.get("image");
 
   if (!artist) {
     window.location.href = "index.html";
@@ -14,6 +16,18 @@ function loadArtistSongs() {
   }
 
   document.getElementById("artist-name").textContent = artist;
+
+  // Add in image from params
+  const imgElement = document.getElementById("artist-img");
+
+  if (imageUrl) {
+    imgElement.src = decodeURIComponent(imageUrl);
+    imgElement.alt = artist;
+  } else {
+    const imageName = artist.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-&]/g, '') + ".jpg";
+    imgElement.src = `/img/artists/${imageName}`;
+    imgElement.alt = artist;
+  }
 
   const songsList = document.getElementById("artist-songs-list");
   const artistSongs = songs.filter((song) => song.artist === artist);
