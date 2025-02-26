@@ -2,18 +2,25 @@ import songs from "./data.js";
 
 function loadArtists() {
   const artistContainer = document.getElementById("artists-container");
-  const uniqueArtists = [...new Set(songs.map((song) => song.artist || song.otherArtist).flat())]; // Get unique artists
+
+  // Get unique artists, also from otherArtist
+  const uniqueArtists = [...new Set(songs.map((song) => song.artist || song.otherArtist.flat()))];
 
   uniqueArtists.forEach(artist => {
     const card = document.createElement("div");
     card.classList.add("artist-card");
     card.addEventListener("click", () => {
-      window.location.href = `artist-songs.html?artist=${encodeURIComponent(artist)}`;;
+      const imageUrl = encodeURIComponent(imageSrc);
+      window.location.href = `artist-songs.html?artist=${encodeURIComponent(artist)}&image=${imageUrl}`;
     });
 
-    // TODO: ADD IMAGE
+    // Convert artistname to filename
+    const imageName = artist.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-&]/g, '') + '.jpg';
+    const imageSrc = `/img/artists/${imageName}`;
+
+    // Create image element
     const img = document.createElement("img");
-    img.src = "https://via.placeholder.com/150";
+    img.src = imageSrc;
     img.alt = artist;
 
     const name = document.createElement("h3");
