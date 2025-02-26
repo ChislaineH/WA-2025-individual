@@ -1,7 +1,8 @@
 const songs = [
   {
     name: "OK",
-    artist: "Culture Jam ft Bramsito, Frenna",
+    artist: "Culture Jam",
+    otherArtist: ["Bramsito", "Frenna"],
     year: 2022,
     duration: 2.36,
     image: "/img/songs/culture-jam-ok.jpg"
@@ -22,7 +23,8 @@ const songs = [
   },
   {
     name: "Karma",
-    artist: "Architrackz ft. KATNUF",
+    artist: "Architrackz",
+    otherArtist: "KATNUF",
     year: 2024,
     duration: 2.52,
     image: "/img/songs/architrackz-karma.jpg"
@@ -36,14 +38,16 @@ const songs = [
   },
   {
     name: "After Six",
-    artist: "Broederliefde ft. Antoon, Ronnie Flex",
+    artist: "Broederliefde",
+    otherArtist: ["Antoon", "Ronnie Flex"],
     year: 2024,
     duration: 2.46,
     image: "/img/songs/broederliefde-after-six.jpg"
   },
   {
     name: "Guap",
-    artist: "Bryan MG & Architrackz",
+    artist: "Bryan MG",
+    otherArtist: "Architrackz",
     year: 2023,
     duration: 2.41,
     image: "/img/songs/bryan-mg-guap.jpg"
@@ -57,21 +61,24 @@ const songs = [
   },
   {
     name: "Dumlla Dumlla",
-    artist: "Dafina Zeqiri & DYSTINCT",
+    artist: "Dafina Zeqiri",
+    otherArtist: "DYSTINCT",
     year: 2024,
     duration: 3.07,
     image: "/img/songs/dafina-zeqiri-dumlla-dumlla.jpg"
   },
   {
     name: "Geen Reden",
-    artist: "Delany ft. Yxng Le",
+    artist: "Delany",
+    otherArtist: "Yxng Le",
     year: 2024,
     duration: 2.56,
     image: "/img/songs/delany-geen-reden.jpg"
   },
   {
     name: "679",
-    artist: "Fetty Wap ft. Monty",
+    artist: "Fetty Wap",
+    otherArtist: "Monty",
     year: 2015,
     duration: 3.11,
     image: "/img/songs/fetty-wap-679.jpg"
@@ -106,7 +113,8 @@ const songs = [
   },
   {
     name: "I Need Your Love",
-    artist: "Jonna Fraser x Frenna x Yam",
+    artist: "Jonna Fraser",
+    otherArtist: ["Frenna", "Yam"],
     year: 2024,
     duration: 2.44,
     image: "/img/songs/jonna-fraser-i-need-your-love.jpg"
@@ -120,14 +128,16 @@ const songs = [
   },
   {
     name: "Nog Steeds",
-    artist: "KM x Lijpe",
+    artist: "KM",
+    otherArtist: "Lijpe",
     year: 2023,
     duration: 2.46,
     image: "/img/songs/km-nog-steeds.jpg"
   },
   {
     name: "Camera",
-    artist: "Bryan MG ft. MB, Tawsen",
+    artist: "Bryan MG",
+    otherArtist: ["MB", "Tawsen"],
     year: 2024,
     duration: 2.58,
     image: "/img/songs/bryan-mg-camera.jpg"
@@ -162,7 +172,8 @@ const songs = [
   },
   {
     name: "Yo Voy",
-    artist: "Zion & Lennox ft. Daddy Yankee",
+    artist: "Zion & Lennox",
+    otherArtist: "Daddy Yankee",
     year: 2004,
     duration: 3.51,
     image: "/img/songs/zion-lennox-yo-voy.jpg"
@@ -176,7 +187,8 @@ const songs = [
   },
   {
     name: "Anders Doet",
-    artist: "Architrackz ft. Jayh",
+    artist: "Architrackz",
+    otherArtist: "Jayh",
     year: 2022,
     duration: 5.39,
     image: "/img/songs/architrackz-anders-doet.jpg"
@@ -190,14 +202,16 @@ const songs = [
   },
   {
     name: "El Clásico",
-    artist: "Lijpe ft. Frenna",
+    artist: "Lijpe",
+    otherArtist: "Frenna",
     year: 2022,
     duration: 2.40,
     image: "/img/songs/lijpe-el-clasico.jpg"
   },
   {
     name: "Hurtin me",
-    artist: "Stefflon Don ft. French Montana",
+    artist: "Stefflon Don",
+    otherArtist: "French Montana",
     year: 2017,
     duration: 3.34,
     image: "/img/songs/stefflon-don-hurtin-me.jpg"
@@ -211,28 +225,32 @@ const songs = [
   },
   {
     name: "Essence",
-    artist: "Wizkid ft. Tems",
+    artist: "Wizkid",
+    otherArtist: "Tems",
     year: 2020,
     duration: 4.05,
     image: "/img/songs/wizkid-essence.jpg"
   },
   {
     name: "Validée",
-    artist: "Booba ft. Benash",
+    artist: "Booba",
+    otherArtist: "Benash",
     year: 2015,
     duration: 3.26,
     image: "/img/songs/booba-validee.jpg"
   },
   {
     name: "African Queen",
-    artist: "KM ft. Bryan MG",
+    artist: "KM",
+    otherArtist: "Bryan MG",
     year: 2020,
     duration: 2.59,
     image: "/img/songs/km-african-queen.jpg"
   },
   {
     name: "Envy Us",
-    artist: "Stefflon Don ft. Abra Cadabra",
+    artist: "Stefflon Don",
+    otherArtist: "Abra Cadabra",
     year: 2016,
     duration: 3.48,
     image: "/img/songs/stefflon-don-envy-us.jpg"
@@ -246,14 +264,16 @@ const songs = [
   },
   {
     name: "Pantat",
-    artist: "Kimberlee Ramirez ft. BD, JPB",
+    artist: "Kimberlee Ramirez",
+    otherArtist: ["BP", "JPB"],
     year: 2021,
     duration: 2.19,
     image: "/img/songs/kimberlee-ramirez-pantat.jpg"
   },
   {
     name: "Leven",
-    artist: "Jack ft. Ashafar",
+    artist: "Jack",
+    otherArtist: "Ashafar",
     year: 2019,
     duration: 2.09,
     image: "/img/songs/jack-leven.jpg"

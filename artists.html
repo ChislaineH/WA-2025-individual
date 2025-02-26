@@ -19,7 +19,10 @@
   </header>
   
   <main>
-    <h1>Muse-ic - Artists</h1>
+    <h1>Artists</h1>
+
+    <!-- Sorting -->
+    <!-- TODO: ADD SORTING FUNCTIONALITY -->
     <label for="sort">Sort by:</label>
     <select id="sort">
       <option value="artist">Artist</option>
@@ -28,10 +31,9 @@
     </select>
     <button onclick="sortItems()">Sort</button>
       
-    <div id="artists-collection" class="grid"></div>
+    <div id="artists-container" class="cards-container"></div>
   </main>
 
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script type="module" src="artists.js"></script>
 </body>
 </html>

@@ -11,6 +11,7 @@ function loadSongs() {
       <td><img src="${song.image}" alt="${song.name} image" width="80" height="80"></td>
       <td>${song.name}</td>
       <td>${song.artist}</td>
+      <td>${song.otherArtist || "-"}</td>
       <td>${song.year}</td>
       <td>${song.duration}</td>
     `;
