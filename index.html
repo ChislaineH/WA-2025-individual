@@ -22,6 +22,19 @@
     <section id="songs">
       <h1>All Songs</h1>
 
+      <!-- Add Song Form -->
+      <form id="song-form">
+        <input type="text" id="song-name" placeholder="Song Name" required>
+        <input type="text" id="artist" placeholder="Artist" required>
+        <input type="text" id="other-artists" placeholder="Other Artist(s)">
+        <input type="number" id="year" placeholder="Year" required>
+        <input type="text" id="duration" placeholder="Duration (m:ss)" required>
+        <button type="submit">Add Song</button>
+      </form>
+
+      <!-- Search -->
+      <input type="text" id="search" placeholder="Search songs...">
+
       <!-- Sorting -->
       <!-- TODO: ADD SORTING FUNCTIONALITY -->
       <label for="sort">Sort by:</label>
