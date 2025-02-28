@@ -265,7 +265,7 @@ const songs = [
   {
     name: "Pantat",
     artist: "Kimberlee Ramirez",
-    otherArtist: ["BP", "JPB"],
+    otherArtist: ["BD", "JPB"],
     year: 2021,
     duration: 2.19,
     image: "/img/songs/kimberlee-ramirez-pantat.jpg"
