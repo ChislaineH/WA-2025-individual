@@ -7,8 +7,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const sortSelection = document.getElementById("sort");
 
   function formatDuration(duration) {
-    const min = Math.floor(duration);
-    const sec = Math.round((duration - min) * 100);
+    const totalSeconds = Math.round(duration * 60);
+    const min = Math.floor(totalSeconds / 60);
+    const sec = totalSeconds % 60;
     
     return `${min}:${sec.toString().padStart(2, "0")}`;
   }
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         artist: document.getElementById("artist").value.trim(),
         otherArtist: document.getElementById("other-artists").value.trim(),
         year: document.getElementById("year").value.trim(),
-        duration: `${minutes}:${seconds.toString().padStart(2, "0")}`,
+        duration: minutes + seconds / 60,
         image: "/img/music-note.jpg"
       };
 

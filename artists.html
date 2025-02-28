@@ -21,13 +21,14 @@
   <main>
     <h1>Artists</h1>
 
+          <!-- Search -->
+          <input type="text" id="search" placeholder="Search artists...">
+
     <!-- Sorting -->
-    <!-- TODO: ADD SORTING FUNCTIONALITY -->
     <label for="sort">Sort by:</label>
     <select id="sort">
-      <option value="artist">Artist</option>
-      <option value="song">Song</option>
-      <option value="year">Year</option>
+      <option value="artist-asc">Artist A-Z</option>
+      <option value="artist-desc">Artist Z-A</option>
     </select>
     <button onclick="sortItems()">Sort</button>
       
