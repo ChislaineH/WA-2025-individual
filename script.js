@@ -14,15 +14,22 @@ document.addEventListener("DOMContentLoaded", () => {
     return `${min}:${sec.toString().padStart(2, "0")}`;
   }
 
-   // Set default sort to 'last-added'
-   sortSelection.value = "last-added";
+  // Set default sort to 'last-added'
+  sortSelection.value = "last-added";
+
+  // Pagination
+  let currentPage = 1;
+  const songsPerPage = 5;
 
   function loadSongs(filteredSongs = songs) {
     songsList.innerHTML = "";
 
     const sortedSongs = sortSongs(filteredSongs); // Sort playlists by selected option
+    const start = (currentPage - 1) * songsPerPage;
+    const end = start + songsPerPage;
+    const paginatedSongs = sortedSongs.slice(start, end);
   
-    sortedSongs.forEach((song, index) => {
+    paginatedSongs.forEach((song, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
@@ -35,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
       songsList.appendChild(row);
     });
+
+    updatePagination(filteredSongs.length);
 
     // Delete event listener
     document.querySelectorAll(".delete-btn").forEach((btn) => {
@@ -118,6 +127,31 @@ document.addEventListener("DOMContentLoaded", () => {
         songForm.reset();
       }
     });
+  }
+
+  function updatePagination(totalSongs) {
+    const paginationContainer = document.getElementById("pagination");
+
+    paginationContainer.innerHTML = "";
+
+    const totalPages = Math.ceil(totalSongs / songsPerPage);
+    if (totalPages <= 1) return; // No pagination when only 1 page
+
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement("button");
+      button.textContent = i;
+      button.classList.add("pagination-btn");
+
+      if (i === currentPage) { 
+        button.classList.add("active");
+      }
+
+      button.addEventListener("click", () => {
+        currentPage = i;
+        loadSongs();
+      });
+      paginationContainer.appendChild(button);
+    }
   }
   
   loadSongs();
