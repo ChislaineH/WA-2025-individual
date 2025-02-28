@@ -30,13 +30,19 @@ function loadArtistSongs() {
   }
 
   const songsList = document.getElementById("artist-songs-list");
-  const artistSongs = songs.filter((song) => song.artist === artist);
+
+  // Get all songs from artist or otherArtist
+  const artistSongs = songs.filter(song => 
+    song.artist === artist || (Array.isArray(song.otherArtist) && song.otherArtist.includes(artist))
+  );
+
+  songsList.innerHTML = "";
 
   artistSongs.forEach((song) => {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${song.name}</td>
-      <td>${song.otherArtist || "-"}</td>
+      <td>${song.otherArtist ? song.otherArtist.join(", ") : "-"}</td>
       <td>${song.year}</td>
       <td>${song.duration}</td>
     `;

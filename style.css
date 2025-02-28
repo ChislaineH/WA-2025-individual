@@ -58,25 +58,45 @@ th, td {
 
 /* artists / playlists */
 .cards-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   gap: 20px;
   justify-content: center;
-  padding: 20px;
+  margin: 40px 240px;
 }
 
-.artist-card {
-  width: 150px;
-  padding: 10px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+.artist-card, .playlist-card {
   text-align: center;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.artist-card img {
+.artist-card img, .playlist-card img {
   width: 100%;
-  border-radius: 50%;
-  height: 120px;
-  object-fit: cover;
+  max-width: 144px;
+  border-radius: 10%;
+  margin-top: 8px;
+}
+
+#pagination {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.pagination-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pagination-btn.active {
+  background-color: purple;
+  font-weight: bold;
 }

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Muse-ic - Artist songs</title>
+  <title>Muse-ic - Playlist songs</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -19,9 +19,17 @@
   </header>
   
   <main>
-    <h1 id="artist-name"></h1>
+    <h1 id="playlist-name"></h1>
 
-    <img id="artist-img" src="" alt="Artist image" width="240" height="240">
+    <img id="playlist-img" src="" alt="Playlist image" width="240" height="240">
+
+    <!-- Add song to playlist -->
+    <div id="add-song-container">
+      <input type="text" id="song-search" placeholder="Search for a song...">
+      <select id="song-select" size="5"></select>
+      <button id="add-song-btn">Add Song</button>
+      <p id="add-song-message" style="color:green; margin-top: 5px;"></p>
+    </div>
 
     <!-- Sorting -->
     <!-- TODO: ADD SORTING FUNCTIONALITY -->
@@ -33,20 +41,22 @@
     </select>
     <button onclick="sortItems()">Sort</button>
 
-    <!-- Table with all songs of the artist -->
+    <!-- Table with all songs of the playlist -->
     <table>
       <thead>
         <tr>
+          <th></th>
           <th>Name</th>
+          <th>Artist</th>
           <th>Other Artist(s)</th>
           <th>Year</th>
           <th>Duration</th>
         </tr>
       </thead>
-      <tbody id="artist-songs-list"></tbody>
+      <tbody id="playlist-songs-list"></tbody>
     </table>
   </main>
 
-  <script type="module" src="artist-songs.js"></script>
+  <script type="module" src="playlist-songs.js"></script>
 </body>
 </html>
