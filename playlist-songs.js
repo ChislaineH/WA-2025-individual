@@ -28,7 +28,7 @@ function loadPlaylistSongs() {
 
     const playlistSongs = songs.filter((song) => playlist.songs.includes(song.name)); // Get songs from playlist
 
-    const filteredSongs = playlistSongs.filter((song) => 
+    const filteredSongs = sortPlaylistSongs(playlistSongs.filter((song) => 
       song.name.toLowerCase().includes(searchValue) ||
       song.artist.toLowerCase().includes(searchValue) ||
       (Array.isArray(song.otherArtist) 
@@ -36,7 +36,7 @@ function loadPlaylistSongs() {
         : song.otherArtist?.toLowerCase().includes(searchValue)) ||
       song.year.toString().includes(searchValue) ||
       formatDuration(song.duration).toLowerCase().includes(searchValue)
-    );
+    ));
 
     if (filteredSongs.length === 0) {
       songsList.innerHTML = `<tr><td colspan="6" style="text-align:center;">No matching songs found...</td></tr>`;
@@ -56,10 +56,13 @@ function loadPlaylistSongs() {
       `;
       songsList.appendChild(row);
     });
-  }
+  };
 
   // Search event listener
   document.getElementById("search").addEventListener("input", searchPlaylistSongs);
+
+  // Sort event listener
+  document.getElementById("sort").addEventListener("change", searchPlaylistSongs);
 
   document.getElementById("playlist-name").textContent = playlistName;
 
@@ -78,9 +81,48 @@ function loadPlaylistSongs() {
   }
 
   searchPlaylistSongs();
-}
+};
 
 document.addEventListener("DOMContentLoaded", loadPlaylistSongs);
+
+function sortPlaylistSongs(songArray) {
+  let sortedSongs = [...songArray];
+  const sortSelection = document.getElementById("sort");
+
+  switch (sortSelection.value) {
+    case "name-asc":
+      return sortedSongs.sort((a, b) => a.name.localeCompare(b.name));
+    case "name-desc":
+      return sortedSongs.sort((a, b) => b.name.localeCompare(a.name));
+    case "artist-asc":
+      return sortedSongs.sort((a, b) => a.artist.localeCompare(b.artist));
+    case "artist-desc":
+      return sortedSongs.sort((a, b) => b.artist.localeCompare(a.artist));
+    case "other-artist-asc":
+      return sortedSongs.sort((a, b) => {
+        const otherA = Array.isArray(a.otherArtist) ? a.otherArtist.join(", ") : a.otherArtist || "";
+        const otherB = Array.isArray(b.otherArtist) ? b.otherArtist.join(", ") : b.otherArtist || "";
+        return otherA.localeCompare(otherB);
+      });
+    case "other-artist-desc":
+      return sortedSongs.sort((a, b) => {
+        const otherA = Array.isArray(a.otherArtist) ? a.otherArtist.join(", ") : a.otherArtist || "";
+        const otherB = Array.isArray(b.otherArtist) ? b.otherArtist.join(", ") : b.otherArtist || "";
+        return otherB.localeCompare(otherA);
+      });
+    case "year-asc":
+      return sortedSongs.sort((a, b) => a.year - b.year);
+    case "year-desc":
+      return sortedSongs.sort((a, b) => b.year - a.year);
+    case "duration-asc":
+      return sortedSongs.sort((a, b) => a.duration - b.duration);
+    case "duration-desc":
+      return sortedSongs.sort((a, b) => b.duration - a.duration);
+    case "last-added":
+    default:
+      return [...sortedSongs].reverse();
+  }
+}
 
 function loadAvailableSongs() {
   const songSelect = document.getElementById("song-select");
