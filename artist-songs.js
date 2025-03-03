@@ -56,9 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
       case "name-desc":
         return sortedSongs.sort((a, b) => b.name.localeCompare(a.name));
       case "artist-asc":
-        return sortedSongs.sort((a, b) => a.artist.localeCompare(b.artist));
+        return sortedSongs.sort((a, b) => a.otherArtist.localeCompare(b.otherArtist));
       case "artist-desc":
-        return sortedSongs.sort((a, b) => b.artist.localeCompare(a.artist));
+        return sortedSongs.sort((a, b) => b.otherArtist.localeCompare(a.otherArtist));
       case "year-asc":
         return sortedSongs.sort((a, b) => a.year - b.year);
       case "year-desc":
