@@ -25,16 +25,28 @@ function loadArtistSongs() {
     imgElement.alt = artist;
   } else {
     const imageName = artist.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-&]/g, '') + ".jpg";
-    imgElement.src = `/img/artists/${imageName}`;
+    imgElement.src = `/img/music-note.jpg`;
     imgElement.alt = artist;
   }
 
   const songsList = document.getElementById("artist-songs-list");
 
+  const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+  const allSongs = [...songs, ...savedSongs];
+
   // Get all songs from artist or otherArtist
-  const artistSongs = songs.filter(song => 
+  const artistSongs = allSongs.filter(song => 
     song.artist === artist || (Array.isArray(song.otherArtist) && song.otherArtist.includes(artist))
   );
+
+  // Format duration
+  function formatDuration(duration) {
+    const totalSeconds = Math.round(duration * 60);
+    const min = Math.floor(totalSeconds / 60);
+    const sec = totalSeconds % 60;
+    
+    return `${min}:${sec.toString().padStart(2, "0")}`;
+  }
 
   songsList.innerHTML = "";
 
@@ -42,9 +54,9 @@ function loadArtistSongs() {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td>${song.name}</td>
-      <td>${song.otherArtist ? song.otherArtist.join(", ") : "-"}</td>
+      <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
       <td>${song.year}</td>
-      <td>${song.duration}</td>
+      <td>${formatDuration(song.duration)}</td>
     `;
     songsList.appendChild(row);
   });
