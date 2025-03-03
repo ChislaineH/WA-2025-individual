@@ -1,43 +1,21 @@
 import songs from "./data.js";
 
-function getArtistFromURL() {
-  const urlParams = new URLSearchParams(window.location.search);
-  return urlParams.get("artist");
-}
+const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+const searchBar = document.getElementById("search");
+const songsList = document.getElementById("artist-songs-list");
 
-function loadArtistSongs() {
-  const artist = getArtistFromURL();
-  const urlParams = new URLSearchParams(window.location.search);
-  const imageUrl = urlParams.get("image");
-
-  if (!artist) {
-    window.location.href = "index.html";
-    return;
+document.addEventListener("DOMContentLoaded", () => {
+  // Get artist from params
+  function getArtistFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("artist");
   }
 
-  document.getElementById("artist-name").textContent = artist;
-
-  // Add in image from params
-  const imgElement = document.getElementById("artist-img");
-
-  if (imageUrl) {
-    imgElement.src = decodeURIComponent(imageUrl);
-    imgElement.alt = artist;
-  } else {
-    const imageName = artist.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-&]/g, '') + ".jpg";
-    imgElement.src = `/img/music-note.jpg`;
-    imgElement.alt = artist;
+  // Get img from params
+  function getImageFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get("image");
   }
-
-  const songsList = document.getElementById("artist-songs-list");
-
-  const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
-  const allSongs = [...songs, ...savedSongs];
-
-  // Get all songs from artist or otherArtist
-  const artistSongs = allSongs.filter(song => 
-    song.artist === artist || (Array.isArray(song.otherArtist) && song.otherArtist.includes(artist))
-  );
 
   // Format duration
   function formatDuration(duration) {
@@ -48,18 +26,67 @@ function loadArtistSongs() {
     return `${min}:${sec.toString().padStart(2, "0")}`;
   }
 
-  songsList.innerHTML = "";
+  // Search
+  function searchSongs() {
+    const searchValue = searchBar.value.toLowerCase();
+    loadArtistSongs(searchValue);
+  }
 
-  artistSongs.forEach((song) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td>${song.name}</td>
-      <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
-      <td>${song.year}</td>
-      <td>${formatDuration(song.duration)}</td>
-    `;
-    songsList.appendChild(row);
-  });
-}
+  //  Load artist songs
+  function loadArtistSongs(searchValue = "") {
+    const artist = getArtistFromURL();
+    const imageUrl = getImageFromURL();
 
-document.addEventListener("DOMContentLoaded", loadArtistSongs);
+    if (!artist) {
+      window.location.href = "index.html";
+      return;
+    }
+
+    document.getElementById("artist-name").textContent = artist;
+    const imgElement = document.getElementById("artist-img");
+    imgElement.src = imageUrl ? decodeURIComponent(imageUrl) : "/img/music-note.jpg";
+    imgElement.alt = artist;
+
+    // Get all unique songs (remove duplicates on name + artist)
+    const allSongs = [...songs, ...savedSongs];
+    const uniqueSongs = Array.from(
+      new Map(allSongs.map(song => [`${song.name.toLowerCase()}-${song.artist.toLowerCase()}`, song])).values()
+    );
+
+    // Filter songs from artist
+    const artistSongs = uniqueSongs.filter(song =>
+      song.artist.toLowerCase() === artist.toLowerCase() ||
+      (Array.isArray(song.otherArtist) && song.otherArtist.some(a => a.toLowerCase() === artist.toLowerCase()))
+    );
+
+    // Filter search all songs
+    const filteredSongs = artistSongs.filter(song =>
+      song.name.toLowerCase().includes(searchValue) ||
+      song.artist.toLowerCase().includes(searchValue) ||
+      (Array.isArray(song.otherArtist) 
+        ? song.otherArtist.join(", ").toLowerCase()
+        : song.otherArtist?.toLowerCase().includes(searchValue)) ||
+      song.year.toString().includes(searchValue) ||
+      formatDuration(song.duration).toLowerCase().includes(searchValue) 
+    );
+
+    songsList.innerHTML = "";
+
+    filteredSongs.forEach((song) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${song.name}</td>
+        <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
+        <td>${song.year}</td>
+        <td>${formatDuration(song.duration)}</td>
+      `;
+
+      songsList.appendChild(row);
+    });
+  }
+
+  // Search event listeners
+  searchBar.addEventListener("input", searchSongs);
+
+  loadArtistSongs();
+});
