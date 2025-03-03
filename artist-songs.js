@@ -55,9 +55,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return sortedSongs.sort((a, b) => a.name.localeCompare(b.name));
       case "name-desc":
         return sortedSongs.sort((a, b) => b.name.localeCompare(a.name));
-      case "artist-asc":
+      case "other-artist-asc":
         return sortedSongs.sort((a, b) => a.otherArtist.localeCompare(b.otherArtist));
-      case "artist-desc":
+      case "other-artist-desc":
         return sortedSongs.sort((a, b) => b.otherArtist.localeCompare(a.otherArtist));
       case "year-asc":
         return sortedSongs.sort((a, b) => a.year - b.year);
@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  //  Load artist songs
+  // Load artist songs
   function loadArtistSongs(searchValue = "") {
     const artist = getArtistFromURL();
     const imageUrl = getImageFromURL();
