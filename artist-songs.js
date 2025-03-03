@@ -87,13 +87,29 @@ document.addEventListener("DOMContentLoaded", () => {
       (Array.isArray(song.otherArtist) && song.otherArtist.some(a => a.toLowerCase() === artist.toLowerCase()))
     );
 
+    // otherArtist column: delete artist (when in otherArtists) or add artist (to otherArtist column)
+    const checkOtherArtists = artistSongs.map(song => {
+      let otherArtists = Array.isArray(song.otherArtist) 
+        ? [...song.otherArtist] 
+        : song.otherArtist
+          ? song.otherArtist.split(", ").map(a => a.trim())
+          : [];
+
+      // Delete artist when in otherArtists
+      otherArtists = otherArtists.filter(a => a.toLowerCase() !== artist.toLowerCase());
+
+      // Add artist when not equal to artist from artist-songs
+      if (song.artist.toLowerCase() !== artist.toLowerCase()) {
+        otherArtists.push(song.artist);
+      }
+
+      return {...song, otherArtist: otherArtists.length > 0 ? otherArtists.join(", ") : "-"};
+    });
+
     // Filter search all songs
-    const filteredSongs = artistSongs.filter(song =>
+    const filteredSongs = checkOtherArtists.filter(song =>
       song.name.toLowerCase().includes(searchValue) ||
-      song.artist.toLowerCase().includes(searchValue) ||
-      (Array.isArray(song.otherArtist) 
-        ? song.otherArtist.join(", ").toLowerCase()
-        : song.otherArtist?.toLowerCase().includes(searchValue)) ||
+      (song.otherArtist && song.otherArtist.toLowerCase().includes(searchValue)) ||
       song.year.toString().includes(searchValue) ||
       formatDuration(song.duration).toLowerCase().includes(searchValue) 
     );
@@ -106,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${song.name}</td>
-        <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
+        <td>${song.otherArtist}</td>
         <td>${song.year}</td>
         <td>${formatDuration(song.duration)}</td>
       `;
