@@ -1,8 +1,9 @@
 import songs from "./data.js";
 
 const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
-const searchBar = document.getElementById("search");
 const songsList = document.getElementById("artist-songs-list");
+const searchBar = document.getElementById("search");
+const sortSelection = document.getElementById("sort");
 
 document.addEventListener("DOMContentLoaded", () => {
   // Get artist from params
@@ -30,6 +31,33 @@ document.addEventListener("DOMContentLoaded", () => {
   function searchSongs() {
     const searchValue = searchBar.value.toLowerCase();
     loadArtistSongs(searchValue);
+  }
+
+  // Sorting
+  function sortSongs(songArray) {
+    let sortedSongs = [...songArray];
+
+    switch (sortSelection.value) {
+      case "name-asc":
+        return sortedSongs.sort((a, b) => a.name.localeCompare(b.name));
+      case "name-desc":
+        return sortedSongs.sort((a, b) => b.name.localeCompare(a.name));
+      case "artist-asc":
+        return sortedSongs.sort((a, b) => a.artist.localeCompare(b.artist));
+      case "artist-desc":
+        return sortedSongs.sort((a, b) => b.artist.localeCompare(a.artist));
+      case "year-asc":
+        return sortedSongs.sort((a, b) => a.year - b.year);
+      case "year-desc":
+        return sortedSongs.sort((a, b) => b.year - a.year);
+      case "duration-asc":
+        return sortedSongs.sort((a, b) => a.duration - b.duration);
+      case "duration-desc":
+        return sortedSongs.sort((a, b) => b.duration - a.duration);
+      case "last-added":
+      default:
+        return [...sortedSongs].reverse();
+    }
   }
 
   //  Load artist songs
@@ -70,9 +98,11 @@ document.addEventListener("DOMContentLoaded", () => {
       formatDuration(song.duration).toLowerCase().includes(searchValue) 
     );
 
+    const sortedSongs = sortSongs(filteredSongs); // Sort playlists by selected option
+
     songsList.innerHTML = "";
 
-    filteredSongs.forEach((song) => {
+    sortedSongs.forEach((song) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${song.name}</td>
@@ -85,8 +115,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Search event listeners
+  // Search event listener
   searchBar.addEventListener("input", searchSongs);
+
+  // Sort event listener
+  sortSelection.addEventListener("change", () => loadArtistSongs());
 
   loadArtistSongs();
 });
