@@ -25,19 +25,29 @@
 
     <!-- Add song to playlist -->
     <div id="add-song-container">
-      <input type="text" id="song-search" placeholder="Search for a song...">
+      <input type="text" id="song-search" placeholder="Search song to add...">
       <select id="song-select" size="5"></select>
       <button id="add-song-btn">Add Song</button>
       <p id="add-song-message" style="color:green; margin-top: 5px;"></p>
     </div>
 
+    <!-- Search -->
+    <input type="text" id="search" placeholder="Search songs...">
+
     <!-- Sorting -->
-    <!-- TODO: ADD SORTING FUNCTIONALITY -->
     <label for="sort">Sort by:</label>
     <select id="sort">
-      <option value="artist">Artist</option>
-      <option value="song">Song</option>
-      <option value="year">Year</option>
+      <option value="last-added">Last added</option>
+      <option value="name-asc">Name A-Z</option>
+      <option value="name-desc">Name Z-A</option>
+      <option value="artist-asc">Artist A-Z</option>
+      <option value="artist-desc">Artist Z-A</option>
+      <option value="other-artist-asc">Other artist(s) A-Z</option>
+      <option value="other-artist-desc">Other artist(s) Z-A</option>
+      <option value="year-asc">Year old-new</option>
+      <option value="year-desc">Year new-old</option>
+      <option value="duration-asc">Duration low-high</option>
+      <option value="duration-desc">Duration high-low</option>
     </select>
     <button onclick="sortItems()">Sort</button>
 

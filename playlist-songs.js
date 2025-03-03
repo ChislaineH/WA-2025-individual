@@ -7,26 +7,67 @@ function getPlaylistFromURL() {
 
 function loadPlaylistSongs() {
   const playlistName = getPlaylistFromURL();
-
   if (!playlistName) {
     window.location.href = "playlists.html";
     return;
   }
 
+  function searchPlaylistSongs() {
+    const searchValue = document.getElementById("search").value.toLowerCase();
+    const songsList = document.getElementById("playlist-songs-list");
+  
+    songsList.innerHTML = "";
+  
+    const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
+    const playlist = playlists.find((p) => p.name === playlistName);
+  
+    if (!playlist || !playlist.songs || playlist.songs.length === 0) {
+      songsList.innerHTML = `<tr><td colspan="6" style="text-align:center;">No songs yet in this playlist...</td></tr>`;
+      return;
+    }
+
+    const playlistSongs = songs.filter((song) => playlist.songs.includes(song.name)); // Get songs from playlist
+
+    const filteredSongs = playlistSongs.filter((song) => 
+      song.name.toLowerCase().includes(searchValue) ||
+      song.artist.toLowerCase().includes(searchValue) ||
+      (Array.isArray(song.otherArtist) 
+        ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) 
+        : song.otherArtist?.toLowerCase().includes(searchValue)) ||
+      song.year.toString().includes(searchValue) ||
+      formatDuration(song.duration).toLowerCase().includes(searchValue)
+    );
+
+    if (filteredSongs.length === 0) {
+      songsList.innerHTML = `<tr><td colspan="6" style="text-align:center;">No matching songs found...</td></tr>`;
+      return;
+    }
+
+    filteredSongs.forEach((song, index) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
+        <td>${song.name}</td>
+        <td>${song.artist}</td>
+        <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
+        <td>${song.year}</td>
+        <td>${formatDuration(song.duration)}</td>
+        <td><button class="delete-btn" data-index="${index}">X</button></td>
+      `;
+      songsList.appendChild(row);
+    });
+  }
+
+  // Search event listener
+  document.getElementById("search").addEventListener("input", searchPlaylistSongs);
+
   document.getElementById("playlist-name").textContent = playlistName;
 
-  const songsList = document.getElementById("playlist-songs-list");
   const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
-
   const playlist = playlists.find((p) => p.name === playlistName);
 
   const playlistImg = document.getElementById("playlist-img"); 
   playlistImg.src = playlist?.image || "/img/music-note.jpg";
-
-  if (!playlist || !playlist.songs || playlist.songs.length === 0) {
-    songsList.innerHTML = `<tr><td colspan="6" style="text-align:center;">No songs yet in this playlist...</td></tr>`;
-    return;
-  }
 
   function formatDuration(duration) {
     const totalSeconds = Math.round(duration * 60);
@@ -36,21 +77,7 @@ function loadPlaylistSongs() {
     return `${min}:${sec.toString().padStart(2, "0")}`;
   }
 
-  const playlistSongs = songs.filter((song) => playlist.songs.includes(song.name)); // Get songs from playlist
-
-  playlistSongs.forEach((song, index) => {
-    const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
-      <td>${song.name}</td>
-      <td>${song.artist}</td>
-      <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
-      <td>${song.year}</td>
-      <td>${formatDuration(song.duration)}</td>
-      <td><button class="delete-btn" data-index="${index}">X</button></td>
-    `;
-    songsList.appendChild(row);
-  });
+  searchPlaylistSongs();
 }
 
 document.addEventListener("DOMContentLoaded", loadPlaylistSongs);
