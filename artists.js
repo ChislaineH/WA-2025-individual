@@ -2,7 +2,10 @@ import songs from "./data.js";
 
 // Get unique artists, also from otherArtist
 function getUniqueArtists() {
-  const allArtists = songs.flatMap((song) => 
+  const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+  const allSongs = [...songs, ...savedSongs];
+
+  const allArtists = allSongs.flatMap((song) => 
     [song.artist, ...(Array.isArray(song.otherArtist) ? song.otherArtist : [])]
   ).filter(artist => artist);
   
@@ -14,11 +17,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchBar = document.getElementById("search");
   const sortSelection = document.getElementById("sort");
 
-  function loadArtists(filteredArtists = getUniqueArtists()) {
+  function loadArtists(filteredArtists) {
+    const allArtists = getUniqueArtists();
+    const artistsToShow = filteredArtists || allArtists;
+
     artistContainer.innerHTML = "";
 
     // Sort artists
-    const sortedArtists = sortArtists(filteredArtists);
+    const sortedArtists = sortArtists(artistsToShow);
 
     sortedArtists.forEach(artist => {
       const card = document.createElement("div");
@@ -34,6 +40,10 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = document.createElement("img");
       img.src = imageSrc;
       img.alt = artist;
+
+      img.onerror = function() {
+        img.src = "/img/music-note.jpg";
+      }
   
       const name = document.createElement("h3");
       name.textContent = artist;
