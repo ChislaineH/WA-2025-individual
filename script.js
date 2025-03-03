@@ -124,6 +124,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return sortedSongs.sort((a, b) => a.artist.localeCompare(b.artist));
       case "artist-desc":
         return sortedSongs.sort((a, b) => b.artist.localeCompare(a.artist));
+      case "other-artist-asc":
+        return sortedSongs.sort((a, b) => {
+          const otherA = Array.isArray(a.otherArtist) ? a.otherArtist.join(", ") : a.otherArtist || "";
+          const otherB = Array.isArray(b.otherArtist) ? b.otherArtist.join(", ") : b.otherArtist || "";
+          return otherA.localeCompare(otherB);
+        });
+      case "other-artist-desc":
+        return sortedSongs.sort((a, b) => {
+          const otherA = Array.isArray(a.otherArtist) ? a.otherArtist.join(", ") : a.otherArtist || "";
+          const otherB = Array.isArray(b.otherArtist) ? b.otherArtist.join(", ") : b.otherArtist || "";
+          return otherB.localeCompare(otherA);
+        });
       case "year-asc":
         return sortedSongs.sort((a, b) => a.year - b.year);
       case "year-desc":
