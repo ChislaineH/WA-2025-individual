@@ -15,7 +15,20 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get img from params
   function getImageFromURL() {
     const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get("image");
+    const imageUrl = urlParams.get("image");
+
+    if (!imageUrl) return "/img/music-note.jpg";
+
+    const decodedImageUrl = decodeURIComponent(imageUrl);
+
+    // Check if img exists in data.js
+    const imgExists = songs.some(song => {
+      if (!song.artist) return false;
+      const expectedImg = `/img/artists/${song.artist.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-&]/g, '')}.jpg`;
+      return expectedImg === decodedImageUrl;
+    })
+
+    return imgExists ? decodedImageUrl : "/img/music-note.jpg";
   }
 
   // Format duration
@@ -72,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     document.getElementById("artist-name").textContent = artist;
     const imgElement = document.getElementById("artist-img");
-    imgElement.src = imageUrl ? decodeURIComponent(imageUrl) : "/img/music-note.jpg";
+    imgElement.src = imageUrl;
     imgElement.alt = artist;
 
     // Get all unique songs (remove duplicates on name + artist)
