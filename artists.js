@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const card = document.createElement("div");
       card.classList.add("artist-card");
       card.addEventListener("click", () => {
-        window.location.href = `artist-songs.html?artist=${encodeURIComponent(artist)}`;
+        window.location.href = `artist-songs.html?artist=${encodeURIComponent(artist)}&image=${encodeURIComponent(imageSrc)}`;
       });
   
       // Convert artistname to filename
