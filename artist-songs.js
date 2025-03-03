@@ -25,7 +25,7 @@ function loadArtistSongs() {
     imgElement.alt = artist;
   } else {
     const imageName = artist.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-&]/g, '') + ".jpg";
-    imgElement.src = `/img/artists/${imageName}`;
+    imgElement.src = `/img/music-note.jpg`;
     imgElement.alt = artist;
   }
 
