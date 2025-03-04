@@ -12,19 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // let currentPage = 1;
 
   // Load list from all songs
-  function loadSongs(filteredSongs = [...songs]) {
-    const uniqueSongs = [
-      ...songs.filter(song => 
-        !savedSongs.some(savedSong => savedSong.name === song.name && savedSong.artist === song.artist)
-      ),
-      ...savedSongs
-    ];
-
-    const songsToDisplay = filteredSongs.length ? filteredSongs : uniqueSongs;
-
+  function loadSongs(filteredSongs = [...songs, ...savedSongs]) {
     songsList.innerHTML = "";
 
-    const sortedSongs = sortSongs(songsToDisplay); // Sort playlists by selected option
+    const sortedSongs = sortSongs(filteredSongs); // Sort playlists by selected option
     // const start = (currentPage - 1) * songsPerPage;
     // const end = start + songsPerPage;
     // const paginatedSongs = sortedSongs.slice(start, end);
@@ -55,24 +46,47 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".delete-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const index = parseInt(e.target.getAttribute("data-index"), 10);
-        const songToDelete = index < songs.length ? songs[index] : savedSongs[index - songs.length];
+        const songToDelete = savedSongs[index]
+
+        // Delete from localStorage
+        savedSongs.splice(index, 1);
+
+        // Update localStorage
+        localStorage.setItem("songs", JSON.stringify(savedSongs));
+
+        updateArtists();
+
+        updatePlaylists(songToDelete);
   
-        if (index >= songs.length) {  
-          // Delete from localStorage
-          let updatedSavedSongs = savedSongs.filter((song) =>
-            song.name !== songToDelete.name || song.artist !== songToDelete.artist
-          );
-  
-          // Update localStorage
-          localStorage.setItem("songs", JSON.stringify(updatedSavedSongs));
-  
-          // Delete from localStorage array
-          savedSongs.splice(0, savedSongs.length, ...updatedSavedSongs);
-        }
-  
-        loadSongs();
+        setTimeout(() => loadSongs(), 50);
       });
     });
+  }
+
+  function updateArtists() {
+    let allSongs = [...songs, ...savedSongs];
+
+    let allArtists = allSongs.flatMap((song) =>
+      [song.artist, ...(Array.isArray(song.otherArtist) ? song.otherArtist : (song.otherArtist ? [song.otherArtist] : []))]
+    ).filter(artist => artist);
+    
+    localStorage.setItem("artists", JSON.stringify([...new Set(allArtists)]));
+
+    if (typeof loadArtists === "function") {
+      loadArtists();
+    }
+  }
+
+  function updatePlaylists(songToDelete) {
+    let playlists = JSON.parse(localStorage.getItem("playlists")) || [];
+
+    playlists.forEach((playlist) => {
+      playlist.songs = playlist.songs.filter((song) =>
+        songs.name !== songToDelete.name || song.artist !== songToDelete.artist
+      );
+    });
+
+    localStorage.setItem("playlists", JSON.stringify(playlists));
   }
   
   //  Add song to playlist event listener
@@ -80,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll(".add-to-playlist-btn").forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const songIndex = e.target.getAttribute("song-index");
-        const song = songIndex < songs.length ? songs[songIndex] : savedSongs[songIndex - songs.length];
+        const song = savedSongs[songIndex];
 
         addToPlaylist(song);
       });
@@ -197,10 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
   function searchSongs() {
     const searchValue = searchBar.value.toLowerCase();
     
-    const filteredSongs = [...songs, ...savedSongs]
-      .filter((song, index, self) =>
-        self.findIndex(s => s.name === song.name && s.artist === song.artist) === index // Filter duplicate songs
-      )
+    const filteredSongs = savedSongs
       .filter((song) => 
         song.name.toLowerCase().includes(searchValue) ||
         song.artist.toLowerCase().includes(searchValue) ||
@@ -221,16 +232,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Submit form (add song)
   if (songForm) {
     songForm.addEventListener("submit", (e) => {
-      e.preventDefault();
+      e.preventDefault(); 
 
       const minutes = parseInt(document.getElementById("duration-minutes").value, 10);
       const seconds = parseInt(document.getElementById("duration-seconds").value, 10);
 
-      if (isNaN(minutes) || isNaN(seconds || seconds >= 60)) {
+      // Validation duration
+      if (isNaN(minutes) || isNaN(seconds || seconds< 0 || seconds >= 60)) {
         alert("Please enter a valid duration, seconds need to be between 0 and 59.");
         return;
       }
       
+      // Create song object
       const newSong = {
         name: document.getElementById("song-name").value.trim(),
         artist: document.getElementById("artist").value.trim(),
@@ -244,28 +257,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (newSong.name && newSong.artist && newSong.year) {
         savedSongs.push(newSong);
         localStorage.setItem("songs", JSON.stringify(savedSongs));
-
-        if (typeof loadArtists === "function") {
-          loadArtists();
-        }
-
-        // Update artists list in localStorage
-        let artists = JSON.parse(localStorage.getItem("artists")) || [];
-
-        if (!artists.includes(newSong.artist)) {
-          artists.push(newSong.artist);
-        }
-        
-        if (newSong.otherArtist) {
-          let otherArtists = newSong.otherArtist.split(",").map(artist => artist.trim());
-          otherArtists.forEach(artist => {
-            if (artist && !artists.includes(artist)) {
-              artists.push(artist);
-            }
-          });
-        }
-
-        localStorage.setItem("artists", JSON.stringify(artists));
 
         loadSongs();
         songForm.reset();
