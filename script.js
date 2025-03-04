@@ -7,35 +7,44 @@ const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Pagination
-  const songsPerPage = 5;
-  let currentPage = 1;
+  // // Pagination
+  // const songsPerPage = 5;
+  // let currentPage = 1;
 
   // Load list from all songs
-  function loadSongs(filteredSongs = [...songs, ...savedSongs]) {
+  function loadSongs(filteredSongs = [...songs]) {
+    const uniqueSongs = [
+      ...songs.filter(song => 
+        !savedSongs.some(savedSong => savedSong.name === song.name && savedSong.artist === song.artist)
+      ),
+      ...savedSongs
+    ];
+
+    const songsToDisplay = filteredSongs.length ? filteredSongs : uniqueSongs;
+
     songsList.innerHTML = "";
 
-    const sortedSongs = sortSongs(filteredSongs); // Sort playlists by selected option
-    const start = (currentPage - 1) * songsPerPage;
-    const end = start + songsPerPage;
-    const paginatedSongs = sortedSongs.slice(start, end);
+    const sortedSongs = sortSongs(songsToDisplay); // Sort playlists by selected option
+    // const start = (currentPage - 1) * songsPerPage;
+    // const end = start + songsPerPage;
+    // const paginatedSongs = sortedSongs.slice(start, end);
   
-    paginatedSongs.forEach((song, index) => {
+    sortedSongs.forEach((song, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><button class="add-to-playlist-btn" song-index="${start + index}">+</button></td>
+        <td><button class="add-to-playlist-btn" song-index="${index}">+</button></td>
         <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
         <td>${song.name}</td>
         <td>${song.artist}</td>
         <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
         <td>${song.year}</td>
         <td>${formatDuration(song.duration)}</td>
-        <td><button class="delete-btn" data-index="${start + index}">X</button></td>
+        <td><button class="delete-btn" data-index="${index}">X</button></td>
       `;
       songsList.appendChild(row);
     });
 
-    updatePagination(filteredSongs.length);
+    // updatePagination(songsToDisplay.length);
 
     deleteEventListener();
     addToPlaylistEventListener();
@@ -150,30 +159,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Update pagination
-  function updatePagination(totalSongs) {
-    const paginationContainer = document.getElementById("pagination");
-    paginationContainer.innerHTML = "";
+  // // Update pagination
+  // function updatePagination(totalSongs) {
+  //   const paginationContainer = document.getElementById("pagination");
+  //   paginationContainer.innerHTML = "";
 
-    const totalPages = Math.ceil(totalSongs / songsPerPage);
-    if (totalPages <= 1) return; // No pagination when only 1 page
+  //   const totalPages = Math.ceil(totalSongs / songsPerPage);
+  //   if (totalPages <= 1) return; // No pagination when only 1 page
 
-    for (let i = 1; i <= totalPages; i++) {
-      const button = document.createElement("button");
-      button.textContent = i;
-      button.classList.add("pagination-btn");
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     const button = document.createElement("button");
+  //     button.textContent = i;
+  //     button.classList.add("pagination-btn");
 
-      if (i === currentPage) { 
-        button.classList.add("active");
-      }
+  //     if (i === currentPage) { 
+  //       button.classList.add("active");
+  //     }
 
-      button.addEventListener("click", () => {
-        currentPage = i;
-        loadSongs();
-      });
-      paginationContainer.appendChild(button);
-    }
-  }
+  //     button.addEventListener("click", () => {
+  //       currentPage = i;
+  //       loadSongs();
+  //     });
+  //     paginationContainer.appendChild(button);
+  //   }
+  // }
 
   // Format duration
   function formatDuration(duration) {
@@ -187,13 +196,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Search
   function searchSongs() {
     const searchValue = searchBar.value.toLowerCase();
-    const filteredSongs = [...songs, ...savedSongs].filter((song) =>
-      song.name.toLowerCase().includes(searchValue) ||
-      song.artist.toLowerCase().includes(searchValue) ||
-      (Array.isArray(song.otherArtist) 
-        ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) 
-        : song.otherArtist?.toLowerCase().includes(searchValue)
+    
+    const filteredSongs = [...songs, ...savedSongs]
+      .filter((song, index, self) =>
+        self.findIndex(s => s.name === song.name && s.artist === song.artist) === index // Filter duplicate songs
       )
+      .filter((song) => 
+        song.name.toLowerCase().includes(searchValue) ||
+        song.artist.toLowerCase().includes(searchValue) ||
+        (Array.isArray(song.otherArtist) 
+          ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) 
+          : song.otherArtist?.toLowerCase().includes(searchValue)
+        )
     );
     return filteredSongs;
   }
