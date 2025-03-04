@@ -52,9 +52,18 @@ function loadPlaylistSongs() {
         <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
         <td>${song.year}</td>
         <td>${formatDuration(song.duration)}</td>
-        <td><button class="delete-btn" data-index="${index}">X</button></td>
+        <td><button class="delete-btn" data-song="${song.name}">X</button></td>
       `;
       songsList.appendChild(row);
+    });
+
+    // Delete event listener
+    const deleteButtons = document.querySelectorAll(".delete-btn");
+    deleteButtons.forEach((btn) => {
+      btn.addEventListener("click", function() {
+        const songName = this.getAttribute("data-song");
+        deleteSong(songName);
+      });
     });
   };
 
@@ -82,6 +91,22 @@ function loadPlaylistSongs() {
 
   searchPlaylistSongs();
 };
+
+function deleteSong(songName) {
+  const playlistName = getPlaylistFromURL();
+  const playlists = JSON.parse(localStorage.getItem("playlists")) || [];
+  const playlist = playlists.find((p) => p.name === playlistName);
+
+  if (!playlist) return;
+
+  // Delete from playlist
+  playlist.songs = playlist.songs.filter((song) => song !== songName);
+
+  // Update localStorage
+  localStorage.setItem("playlists", JSON.stringify(playlists));
+
+  loadPlaylistSongs();
+}
 
 document.addEventListener("DOMContentLoaded", loadPlaylistSongs);
 
@@ -211,7 +236,7 @@ document.getElementById("add-song-btn").addEventListener("click", () => {
   playlist.songs = playlist.songs || []; // Make sure song list is an array
 
   if (!playlist.songs.includes(selectedSong)) {
-    playlist.songs.push(selectedSong);
+    playlist.songs.unshift(selectedSong);
     localStorage.setItem("playlists", JSON.stringify(playlists));
 
     // Make sure the "No songs yet in this playlist..." is not visible when song is added to playlist
