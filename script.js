@@ -190,13 +190,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const filteredSongs = [...songs, ...savedSongs].filter((song) =>
       song.name.toLowerCase().includes(searchValue) ||
       song.artist.toLowerCase().includes(searchValue) ||
-      (Array.isArray(song.otherArtist) ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) : song.otherArtist?.toLowerCase().includes(searchValue))
+      (Array.isArray(song.otherArtist) 
+        ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) 
+        : song.otherArtist?.toLowerCase().includes(searchValue)
+      )
     );
     return filteredSongs;
   }
 
   // Search event listener
-  searchBar.addEventListener("input", searchSongs);
+  searchBar.addEventListener("input", () => loadSongs(searchSongs()));
 
   // Sort event listener
   sortSelection.addEventListener("change", () => loadSongs());
