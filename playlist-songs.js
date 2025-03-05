@@ -26,7 +26,13 @@ function loadPlaylistSongs() {
       return;
     }
 
-    const playlistSongs = songs.filter((song) => playlist.songs.includes(song.name)); // Get songs from playlist
+    const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+    const allSongs = [...songs, ...savedSongs];
+
+    const playlistSongs = playlist.songs.map((songName) => {
+      const song = allSongs.find((song) => song.name === songName);
+      return song;
+    }).filter(song => song);
 
     const filteredSongs = sortPlaylistSongs(playlistSongs.filter((song) => 
       song.name.toLowerCase().includes(searchValue) ||
@@ -145,7 +151,7 @@ function sortPlaylistSongs(songArray) {
       return sortedSongs.sort((a, b) => b.duration - a.duration);
     case "last-added":
     default:
-      return [...sortedSongs].reverse();
+      return [...sortedSongs];
   }
 }
 
@@ -162,6 +168,10 @@ function loadAvailableSongs() {
   const playlist = playlists.find((p) => p.name === playlistName);
 
   let availableSongs = [...songs];
+
+  // Combine songs with songs localStorage
+  const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
+  availableSongs = [...availableSongs, ...savedSongs];
 
   if (playlist) {
     availableSongs = availableSongs.filter(song => !((playlist?.songs ?? []).includes(song.name)));
@@ -230,13 +240,15 @@ document.getElementById("add-song-btn").addEventListener("click", () => {
   if (!playlist) {
     // Make new list for empty playlist
     playlist = { name: playlistName, songs: [] };
-    playlist.push(playlist);
+    playlists.push(playlist);
   }
 
   playlist.songs = playlist.songs || []; // Make sure song list is an array
 
   if (!playlist.songs.includes(selectedSong)) {
     playlist.songs.unshift(selectedSong);
+
+    // Save updated playlists to localStorage
     localStorage.setItem("playlists", JSON.stringify(playlists));
 
     // Make sure the "No songs yet in this playlist..." is not visible when song is added to playlist
