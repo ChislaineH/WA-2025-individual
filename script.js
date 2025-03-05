@@ -5,22 +5,25 @@ const songsList = document.getElementById("songs-list");
 const songForm = document.getElementById("song-form");
 const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
+const paginationContainer = document.getElementById("pagination");
+
+// Pagination
+const songsPerPage = 5;
+let currentPage = 1;
 
 document.addEventListener("DOMContentLoaded", () => {
-  // // Pagination
-  // const songsPerPage = 5;
-  // let currentPage = 1;
-
   // Load list from all songs
   function loadSongs(filteredSongs = [...songs, ...savedSongs]) {
     songsList.innerHTML = "";
 
     const sortedSongs = sortSongs(filteredSongs); // Sort playlists by selected option
-    // const start = (currentPage - 1) * songsPerPage;
-    // const end = start + songsPerPage;
-    // const paginatedSongs = sortedSongs.slice(start, end);
+    
+    const totalSongs = sortedSongs.length;
+    const start = (currentPage - 1) * songsPerPage;
+    const end = start + songsPerPage;
+    const paginatedSongs = sortedSongs.slice(start, end);
   
-    sortedSongs.forEach((song, index) => {
+    paginatedSongs.forEach((song, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
@@ -34,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       songsList.appendChild(row);
     });
 
-    // updatePagination(songsToDisplay.length);
+    updatePagination(totalSongs);
 
     deleteEventListener();
   }
@@ -126,30 +129,32 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // // Update pagination
-  // function updatePagination(totalSongs) {
-  //   const paginationContainer = document.getElementById("pagination");
-  //   paginationContainer.innerHTML = "";
+  // Update pagination
+  function updatePagination(totalSongs) {
+    paginationContainer.innerHTML = "";
+    const totalPages = Math.ceil(totalSongs / songsPerPage);
 
-  //   const totalPages = Math.ceil(totalSongs / songsPerPage);
-  //   if (totalPages <= 1) return; // No pagination when only 1 page
+    if (totalPages <= 1) return; // No pagination when only 1 page
 
-  //   for (let i = 1; i <= totalPages; i++) {
-  //     const button = document.createElement("button");
-  //     button.textContent = i;
-  //     button.classList.add("pagination-btn");
+    // Update title with current page
+    document.title = `Muse-ic - All Songs - ${currentPage} of ${totalPages}`;
 
-  //     if (i === currentPage) { 
-  //       button.classList.add("active");
-  //     }
+    for (let i = 1; i <= totalPages; i++) {
+      const button = document.createElement("button");
+      button.textContent = i;
+      button.classList.add("pagination-btn");
 
-  //     button.addEventListener("click", () => {
-  //       currentPage = i;
-  //       loadSongs();
-  //     });
-  //     paginationContainer.appendChild(button);
-  //   }
-  // }
+      if (i === currentPage) { 
+        button.classList.add("active");
+      }
+
+      button.addEventListener("click", () => {
+        currentPage = i;
+        loadSongs();
+      });
+      paginationContainer.appendChild(button);
+    }
+  }
 
   // Format duration
   function formatDuration(duration) {
@@ -163,8 +168,10 @@ document.addEventListener("DOMContentLoaded", () => {
   // Search
   function searchSongs() {
     const searchValue = searchBar.value.toLowerCase();
+
+    const allSongs = [...songs, ...savedSongs];
     
-    const filteredSongs = savedSongs
+    const filteredSongs = allSongs
       .filter((song) => 
         song.name.toLowerCase().includes(searchValue) ||
         song.artist.toLowerCase().includes(searchValue) ||
@@ -177,10 +184,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Search event listener
-  searchBar.addEventListener("input", () => loadSongs(searchSongs()));
+  searchBar.addEventListener("input", () => {
+    currentPage = 1;
+    loadSongs(searchSongs());
+  });
 
   // Sort event listener
-  sortSelection.addEventListener("change", () => loadSongs());
+  sortSelection.addEventListener("change", () => {
+    currentPage = 1;
+    loadSongs();
+  });
 
   // Submit form (add song)
   if (songForm) {
