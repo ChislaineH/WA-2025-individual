@@ -16,12 +16,15 @@
         <li><a href="playlists.html">Playlists</a></li>
       </ul>
     </nav>
+    <div id="hamburger" class="hamburger" onclick="toggleMenu()">&#9776;</div>
   </header>
   
   <main>
     <h1 id="playlist-name"></h1>
 
-    <img id="playlist-img" src="" alt="Playlist image" width="240" height="240">
+    <div>
+      <img id="playlist-img" src="" alt="Playlist image" width="200" height="200">
+    </div>
 
     <!-- Add song to playlist -->
     <div id="add-song-container">
@@ -53,19 +56,21 @@
     <button onclick="sortItems()">Sort</button>
 
     <!-- Table with all songs of the playlist -->
-    <table>
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Artist</th>
-          <th>Other Artist(s)</th>
-          <th>Year</th>
-          <th>Duration</th>
-        </tr>
-      </thead>
-      <tbody id="playlist-songs-list"></tbody>
-    </table>
+    <div id="table">
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Artist</th>
+            <th>Other Artist(s)</th>
+            <th>Year</th>
+            <th>Duration</th>
+          </tr>
+        </thead>
+        <tbody id="playlist-songs-list"></tbody>
+      </table>
+    </div>
   </main>
 
   <script type="module" src="playlist-songs.js"></script>

@@ -16,6 +16,7 @@
         <li><a href="playlists.html">Playlists</a></li>
       </ul>
     </nav>
+    <div id="hamburger" class="hamburger" onclick="toggleMenu()">&#9776;</div>
   </header>
   
   <main id="content">
@@ -55,19 +56,21 @@
       <button onclick="sortItems()">Sort</button>
 
       <!-- Table with all songs -->
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>Name</th>
-            <th>Artist</th>
-            <th>Other Artist(s)</th>
-            <th>Year</th>
-            <th>Duration</th>
-          </tr>
-        </thead>
-        <tbody id="songs-list"></tbody>
-      </table>
+      <div id="table">
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Name</th>
+              <th>Artist</th>
+              <th>Other Artist(s)</th>
+              <th>Year</th>
+              <th>Duration</th>
+            </tr>
+          </thead>
+          <tbody id="songs-list"></tbody>
+        </table>
+      </div>
 
       <!-- Pagination -->
       <div id="pagination"></div>

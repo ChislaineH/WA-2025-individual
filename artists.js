@@ -74,5 +74,14 @@ document.addEventListener("DOMContentLoaded", () => {
   searchBar.addEventListener("input", searchArtists);
   sortSelection.addEventListener("change", () => loadArtists());
 
+  // Hamburger menu
+  function toggleMenu() {
+    const navList = document.querySelector("nav ul");
+    navList.classList.toggle("show");
+  }
+
+  // Hamburger event listener
+  document.getElementById("hamburger").addEventListener("click", toggleMenu);
+
   loadArtists();
 });

@@ -150,5 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Sort event listener
   sortSelection.addEventListener("change", () => loadArtistSongs());
 
+  // Hamburger menu
+  function toggleMenu() {
+    const navList = document.querySelector("nav ul");
+    navList.classList.toggle("show");
+  }
+
+  // Hamburger event listener
+  document.getElementById("hamburger").addEventListener("click", toggleMenu);
+
   loadArtistSongs();
 });
