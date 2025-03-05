@@ -13,13 +13,14 @@ header {
   color: white;
   padding: 15px;
   display: flex;
+  justify-content: start;
   align-items: center;
 }
 
 #logo {
   width: 100px;
   height: 100px;
-  margin: 0 160px 0 180px;
+  margin-right: 80px;
 }
 
 nav ul {
@@ -27,7 +28,8 @@ nav ul {
   padding: 0;
   margin: 0;
   display: flex;
-  gap: 160px;
+  justify-content: start;
+  gap: 80px;
 }
 
 nav ul li {
@@ -40,9 +42,20 @@ nav ul li a {
   font-size: 18px;
 }
 
+#hamburger {
+  display: none;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+#table {
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
 table {
   width: 80%;
-  margin: 20px auto;
+  margin: 0 auto;
   border-collapse: collapse;
   background: white;
 }
@@ -54,6 +67,10 @@ table, th, td {
 th, td {
   padding: 10px;
   text-align: left;
+}
+
+#search, #sort {
+  margin: 16px;
 }
 
 /* artists / playlists */
@@ -99,4 +116,75 @@ th, td {
 .pagination-btn.active {
   background-color: purple;
   font-weight: bold;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 768px) {
+  header {
+    justify-content: space-between;
+  }
+
+  #hamburger {
+    display: block;
+  }
+
+  #logo {
+    margin: 0;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: purple;
+    padding: 10px;
+    text-align: center;
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  #song-form input, 
+  #song-form button, 
+  #playlist-form input, 
+  #playlist-form button,
+  #add-song-container input,
+  #add-song-container select,
+  #add-song-container button {
+    width: 90%;
+    margin: 4px 16px;
+  }
+
+  #song-form button, #playlist-form button {
+    margin-bottom: 24px;
+  }
+
+  #search, #sort {
+    width: 90%;
+    margin: 8px 16px;
+  }
+
+  #table {
+    margin: 10px;
+  }
+
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+    margin: 20px;
+  }
+
+  #artist-img, #playlist-img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 500px) {
+  .cards-container {
+    grid-template-columns: 1fr;
+  }
 }
