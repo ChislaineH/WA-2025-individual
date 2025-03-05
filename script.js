@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     sortedSongs.forEach((song, index) => {
       const row = document.createElement("tr");
       row.innerHTML = `
-        <td><button class="add-to-playlist-btn" song-index="${index}">+</button></td>
         <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
         <td>${song.name}</td>
         <td>${song.artist}</td>
@@ -38,7 +37,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // updatePagination(songsToDisplay.length);
 
     deleteEventListener();
-    addToPlaylistEventListener();
   }
 
   // Delete event listener
@@ -87,51 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     localStorage.setItem("playlists", JSON.stringify(playlists));
-  }
-  
-  //  Add song to playlist event listener
-  function addToPlaylistEventListener() {
-    document.querySelectorAll(".add-to-playlist-btn").forEach((btn) => {
-      btn.addEventListener("click", (e) => {
-        const songIndex = e.target.getAttribute("song-index");
-        const song = savedSongs[songIndex];
-
-        addToPlaylist(song);
-      });
-    });
-  }
-
-  // Add song to existing or new playlist
-  function addToPlaylist(song) {
-    let playlists = JSON.parse(localStorage.getItem("playlists")) || [];
-    let playlistName = prompt("Type existing playlist or remain empty to create new playlist...");
-
-    if (!playlistName) {
-      playlistName = prompt("Type name for new playlist: ");
-      if (!playlistName) return;
-
-      playlists.push({ name: playlistName, songs: [] });
-    }
-
-    // Search the playlist
-    let playlist = playlists.find((p) => p.name.toLowerCase() === playlistName.toLowerCase());
-
-    if (!playlist) {
-      alert("Playlist not found");
-      return;
-    }
-
-    // Check if song already in playlist
-    if (playlist.songs.some(s => s.name.toLowerCase() === song.name.toLowerCase() && s.artist.toLowerCase() === song.artist.toLowerCase())) {
-      alert("Song already in playlist");
-      return;
-    }
-
-    // Add song to playlist
-    playlist.songs.push(song);
-    localStorage.setItem("playlists", JSON.stringify(playlists));
-
-    alert(`${song.name} is added to ${playlist.name}`);
   }
 
   // Sort songs
