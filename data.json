@@ -1,317 +1,379 @@
-{ 
+{
   "songs": [
     {
-      "id": 1,
+      "id": "1",
       "name": "OK",
       "artist": "Culture Jam",
-      "otherArtist": ["Bramsito", "Frenna"],
+      "otherArtist": [
+        "Bramsito",
+        "Frenna"
+      ],
       "year": 2022,
       "duration": 2.36,
       "image": "/img/songs/culture-jam-ok.jpg"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Favorite Girl",
       "artist": "Priceless",
+      "otherArtist": null,
       "year": 2021,
       "duration": 2.51,
       "image": "/img/songs/priceless-favorite-girl.jpg"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "7 Dagen",
       "artist": "Architrackz",
+      "otherArtist": null,
       "year": 2022,
       "duration": 3.15,
       "image": "/img/songs/architrackz-7-dagen.jpg"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Karma",
       "artist": "Architrackz",
-      "otherArtist": ["KATNUF"],
+      "otherArtist": [
+        "KATNUF"
+      ],
       "year": 2024,
       "duration": 2.52,
       "image": "/img/songs/architrackz-karma.jpg"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Lost & Found",
       "artist": "Broederliefde",
+      "otherArtist": null,
       "year": 2024,
       "duration": 3.16,
       "image": "/img/songs/broederliefde-lost-and-found.jpg"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "After Six",
       "artist": "Broederliefde",
-      "otherArtist": ["Antoon", "Ronnie Flex"],
+      "otherArtist": [
+        "Antoon",
+        "Ronnie Flex"
+      ],
       "year": 2024,
       "duration": 2.46,
       "image": "/img/songs/broederliefde-after-six.jpg"
     },
     {
-      "id": 7,
+      "id": "7",
       "name": "Guap",
       "artist": "Bryan MG",
-      "otherArtist": ["Architrackz"],
+      "otherArtist": [
+        "Architrackz"
+      ],
       "year": 2023,
       "duration": 2.41,
       "image": "/img/songs/bryan-mg-guap.jpg"
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Big 7",
       "artist": "Burna Boy",
+      "otherArtist": null,
       "year": 2023,
       "duration": 2.31,
       "image": "/img/songs/burna-boy-big-7.jpg"
     },
     {
-      "id": 9,
+      "id": "9",
       "name": "Dumlla Dumlla",
       "artist": "Dafina Zeqiri",
-      "otherArtist": ["DYSTINCT"],
+      "otherArtist": [
+        "DYSTINCT"
+      ],
       "year": 2024,
       "duration": 3.07,
       "image": "/img/songs/dafina-zeqiri-dumlla-dumlla.jpg"
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "Geen Reden",
       "artist": "Delany",
-      "otherArtist": ["Yxng Le"],
+      "otherArtist": [
+        "Yxng Le"
+      ],
       "year": 2024,
       "duration": 2.56,
       "image": "/img/songs/delany-geen-reden.jpg"
     },
     {
-      "id": 11,
+      "id": "11",
       "name": "679",
       "artist": "Fetty Wap",
-      "otherArtist": ["Monty"],
+      "otherArtist": [
+        "Monty"
+      ],
       "year": 2015,
       "duration": 3.11,
       "image": "/img/songs/fetty-wap-679.jpg"
     },
     {
-      "id": 12,
+      "id": "12",
       "name": "Girls Wanna Have Fun",
       "artist": "Frenna",
+      "otherArtist": null,
       "year": 2024,
       "duration": 3.29,
       "image": "/img/songs/frenna-girls-wanna-have-fun.jpg"
     },
     {
-      "id": 13,
+      "id": "13",
       "name": "Maradona",
       "artist": "Frenna",
+      "otherArtist": null,
       "year": 2024,
       "duration": 2.26,
       "image": "/img/songs/frenna-maradona.jpg"
     },
     {
-      "id": 14,
+      "id": "14",
       "name": "Nog Steeds",
       "artist": "Jayh",
+      "otherArtist": null,
       "year": 2024,
       "duration": 3.18,
       "image": "/img/songs/jayh-nog-steeds.jpg"
     },
     {
-      "id": 15,
+      "id": "15",
       "name": "Tyar En Waka",
       "artist": "Jonna Fraser",
+      "otherArtist": null,
       "year": 2024,
       "duration": 2.41,
       "image": "/img/songs/jonna-fraser-tyar-en-waka.jpg"
     },
     {
-      "id": 16,
+      "id": "16",
       "name": "I Need Your Love",
       "artist": "Jonna Fraser",
-      "otherArtist": ["Frenna", "Yam"],
+      "otherArtist": [
+        "Frenna",
+        "Yam"
+      ],
       "year": 2024,
       "duration": 2.44,
       "image": "/img/songs/jonna-fraser-i-need-your-love.jpg"
     },
     {
-      "id": 17,
+      "id": "17",
       "name": "Berichten",
       "artist": "Kleine John",
+      "otherArtist": null,
       "year": 2024,
       "duration": 2.08,
       "image": "/img/songs/kleine-john-berichten.jpg"
     },
     {
-      "id": 18,
+      "id": "18",
       "name": "Nog Steeds",
       "artist": "KM",
-      "otherArtist": ["Lijpe"],
+      "otherArtist": [
+        "Lijpe"
+      ],
       "year": 2023,
       "duration": 2.46,
       "image": "/img/songs/km-nog-steeds.jpg"
     },
     {
-      "id": 19,
+      "id": "19",
       "name": "Camera",
       "artist": "Bryan MG",
-      "otherArtist": ["MB", "Tawsen"],
+      "otherArtist": [
+        "MB",
+        "Tawsen"
+      ],
       "year": 2024,
       "duration": 2.58,
       "image": "/img/songs/bryan-mg-camera.jpg"
     },
     {
-      "id": 20,
+      "id": "20",
       "name": "Guatauba",
       "artist": "Plan B",
+      "otherArtist": null,
       "year": 2002,
       "duration": 2.44,
       "image": "/img/songs/plan-b-guatauba.jpg"
     },
     {
-      "id": 21,
+      "id": "21",
       "name": "Carita de Inocente",
       "artist": "Prince Royce",
+      "otherArtist": null,
       "year": 2020,
-      "duration": 3.10,
+      "duration": 3.1,
       "image": "/img/songs/prince-royce-carita-de-inocente.jpg"
     },
     {
-      "id": 22,
+      "id": "22",
       "name": "Rechazame",
       "artist": "Prince Royce",
+      "otherArtist": null,
       "year": 2010,
       "duration": 3.45,
       "image": "/img/songs/prince-royce-rechazame.jpg"
     },
     {
-      "id": 23,
+      "id": "23",
       "name": "Xtra Cool",
       "artist": "Young John",
+      "otherArtist": null,
       "year": 2022,
       "duration": 5.14,
       "image": "/img/songs/young-john-xtra-cool.jpg"
     },
     {
-      "id": 24,
+      "id": "24",
       "name": "Yo Voy",
       "artist": "Zion & Lennox",
-      "otherArtist": ["Daddy Yankee"],
+      "otherArtist": [
+        "Daddy Yankee"
+      ],
       "year": 2004,
       "duration": 3.51,
       "image": "/img/songs/zion-lennox-yo-voy.jpg"
     },
     {
-      "id": 25,
+      "id": "25",
       "name": "WINE",
       "artist": "B Young",
+      "otherArtist": null,
       "year": 2020,
       "duration": 5.48,
       "image": "/img/songs/b-young-wine.jpg"
     },
     {
-      "id": 26,
+      "id": "26",
       "name": "Anders Doet",
       "artist": "Architrackz",
-      "otherArtist": ["Jayh"],
+      "otherArtist": [
+        "Jayh"
+      ],
       "year": 2022,
       "duration": 5.39,
       "image": "/img/songs/architrackz-anders-doet.jpg"
     },
     {
-      "id": 27,
+      "id": "27",
       "name": "Trop Parler",
       "artist": "Franglish",
+      "otherArtist": null,
       "year": 2023,
       "duration": 3.04,
       "image": "/img/songs/franglish-trop-parler.jpg"
     },
     {
-      "id": 28,
+      "id": "28",
       "name": "El Clásico",
       "artist": "Lijpe",
-      "otherArtist": ["Frenna"],
+      "otherArtist": [
+        "Frenna"
+      ],
       "year": 2022,
-      "duration": 2.40,
+      "duration": 2.4,
       "image": "/img/songs/lijpe-el-clasico.jpg"
     },
     {
-      "id": 29,
+      "id": "29",
       "name": "Hurtin me",
       "artist": "Stefflon Don",
-      "otherArtist": ["French Montana"],
+      "otherArtist": [
+        "French Montana"
+      ],
       "year": 2017,
       "duration": 3.34,
       "image": "/img/songs/stefflon-don-hurtin-me.jpg"
     },
     {
-      "id": 30,
+      "id": "30",
       "name": "Sans Effet",
       "artist": "Tayc",
+      "otherArtist": null,
       "year": 2022,
       "duration": 5.21,
       "image": "/img/songs/tayc-sans-effet.jpg"
     },
     {
-      "id": 31,
+      "id": "31",
       "name": "Essence",
       "artist": "Wizkid",
-      "otherArtist": ["Tems"],
+      "otherArtist": [
+        "Tems"
+      ],
       "year": 2020,
       "duration": 4.05,
       "image": "/img/songs/wizkid-essence.jpg"
     },
     {
-      "id": 32,
+      "id": "32",
       "name": "Validée",
       "artist": "Booba",
-      "otherArtist": ["Benash"],
+      "otherArtist": [
+        "Benash"
+      ],
       "year": 2015,
       "duration": 3.26,
       "image": "/img/songs/booba-validee.jpg"
     },
     {
-      "id": 33,
+      "id": "33",
       "name": "African Queen",
       "artist": "KM",
-      "otherArtist": ["Bryan MG"],
+      "otherArtist": [
+        "Bryan MG"
+      ],
       "year": 2020,
       "duration": 2.59,
       "image": "/img/songs/km-african-queen.jpg"
     },
     {
-      "id": 34,
+      "id": "34",
       "name": "Envy Us",
       "artist": "Stefflon Don",
-      "otherArtist": ["Abra Cadabra"],
+      "otherArtist": [
+        "Abra Cadabra"
+      ],
       "year": 2016,
       "duration": 3.48,
       "image": "/img/songs/stefflon-don-envy-us.jpg"
     },
     {
-      "id": 35,
+      "id": "35",
       "name": "Carlo Colucci",
       "artist": "Driess",
+      "otherArtist": null,
       "year": 2019,
-      "duration": 2.20,
+      "duration": 2.2,
       "image": "/img/songs/driess-carlo-colucci.jpg"
     },
     {
-      "id": 36,
+      "id": "36",
       "name": "Pantat",
       "artist": "Kimberlee Ramirez",
-      "otherArtist": ["BD", "JPB"],
+      "otherArtist": [
+        "BD",
+        "JPB"
+      ],
       "year": 2021,
       "duration": 2.19,
       "image": "/img/songs/kimberlee-ramirez-pantat.jpg"
     },
     {
-      "id": 37,
+      "id": "37",
       "name": "Leven",
       "artist": "Jack",
-      "otherArtist": ["Ashafar"],
+      "otherArtist": [
+        "Ashafar"
+      ],
       "year": 2019,
       "duration": 2.09,
       "image": "/img/songs/jack-leven.jpg"
