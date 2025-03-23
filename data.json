@@ -1,7 +1,7 @@
 {
   "songs": [
     {
-      "id": "1",
+      "id": 1,
       "name": "OK",
       "artist": "Culture Jam",
       "otherArtist": [
@@ -13,7 +13,7 @@
       "image": "/img/songs/culture-jam-ok.jpg"
     },
     {
-      "id": "2",
+      "id": 2,
       "name": "Favorite Girl",
       "artist": "Priceless",
       "otherArtist": null,
@@ -22,7 +22,7 @@
       "image": "/img/songs/priceless-favorite-girl.jpg"
     },
     {
-      "id": "3",
+      "id": 3,
       "name": "7 Dagen",
       "artist": "Architrackz",
       "otherArtist": null,
@@ -31,7 +31,7 @@
       "image": "/img/songs/architrackz-7-dagen.jpg"
     },
     {
-      "id": "4",
+      "id": 4,
       "name": "Karma",
       "artist": "Architrackz",
       "otherArtist": [
@@ -42,7 +42,7 @@
       "image": "/img/songs/architrackz-karma.jpg"
     },
     {
-      "id": "5",
+      "id": 5,
       "name": "Lost & Found",
       "artist": "Broederliefde",
       "otherArtist": null,
@@ -51,7 +51,7 @@
       "image": "/img/songs/broederliefde-lost-and-found.jpg"
     },
     {
-      "id": "6",
+      "id": 6,
       "name": "After Six",
       "artist": "Broederliefde",
       "otherArtist": [
@@ -63,7 +63,7 @@
       "image": "/img/songs/broederliefde-after-six.jpg"
     },
     {
-      "id": "7",
+      "id": 7,
       "name": "Guap",
       "artist": "Bryan MG",
       "otherArtist": [
@@ -74,7 +74,7 @@
       "image": "/img/songs/bryan-mg-guap.jpg"
     },
     {
-      "id": "8",
+      "id": 8,
       "name": "Big 7",
       "artist": "Burna Boy",
       "otherArtist": null,
@@ -83,7 +83,7 @@
       "image": "/img/songs/burna-boy-big-7.jpg"
     },
     {
-      "id": "9",
+      "id": 9,
       "name": "Dumlla Dumlla",
       "artist": "Dafina Zeqiri",
       "otherArtist": [
@@ -94,7 +94,7 @@
       "image": "/img/songs/dafina-zeqiri-dumlla-dumlla.jpg"
     },
     {
-      "id": "10",
+      "id": 10,
       "name": "Geen Reden",
       "artist": "Delany",
       "otherArtist": [
@@ -105,7 +105,7 @@
       "image": "/img/songs/delany-geen-reden.jpg"
     },
     {
-      "id": "11",
+      "id": 11,
       "name": "679",
       "artist": "Fetty Wap",
       "otherArtist": [
@@ -116,7 +116,7 @@
       "image": "/img/songs/fetty-wap-679.jpg"
     },
     {
-      "id": "12",
+      "id": 12,
       "name": "Girls Wanna Have Fun",
       "artist": "Frenna",
       "otherArtist": null,
@@ -125,7 +125,7 @@
       "image": "/img/songs/frenna-girls-wanna-have-fun.jpg"
     },
     {
-      "id": "13",
+      "id": 13,
       "name": "Maradona",
       "artist": "Frenna",
       "otherArtist": null,
@@ -134,7 +134,7 @@
       "image": "/img/songs/frenna-maradona.jpg"
     },
     {
-      "id": "14",
+      "id": 14,
       "name": "Nog Steeds",
       "artist": "Jayh",
       "otherArtist": null,
@@ -143,7 +143,7 @@
       "image": "/img/songs/jayh-nog-steeds.jpg"
     },
     {
-      "id": "15",
+      "id": 15,
       "name": "Tyar En Waka",
       "artist": "Jonna Fraser",
       "otherArtist": null,
@@ -152,7 +152,7 @@
       "image": "/img/songs/jonna-fraser-tyar-en-waka.jpg"
     },
     {
-      "id": "16",
+      "id": 16,
       "name": "I Need Your Love",
       "artist": "Jonna Fraser",
       "otherArtist": [
@@ -164,7 +164,7 @@
       "image": "/img/songs/jonna-fraser-i-need-your-love.jpg"
     },
     {
-      "id": "17",
+      "id": 17,
       "name": "Berichten",
       "artist": "Kleine John",
       "otherArtist": null,
@@ -173,7 +173,7 @@
       "image": "/img/songs/kleine-john-berichten.jpg"
     },
     {
-      "id": "18",
+      "id": 18,
       "name": "Nog Steeds",
       "artist": "KM",
       "otherArtist": [
@@ -184,7 +184,7 @@
       "image": "/img/songs/km-nog-steeds.jpg"
     },
     {
-      "id": "19",
+      "id": 19,
       "name": "Camera",
       "artist": "Bryan MG",
       "otherArtist": [
@@ -196,7 +196,7 @@
       "image": "/img/songs/bryan-mg-camera.jpg"
     },
     {
-      "id": "20",
+      "id": 20,
       "name": "Guatauba",
       "artist": "Plan B",
       "otherArtist": null,
@@ -205,7 +205,7 @@
       "image": "/img/songs/plan-b-guatauba.jpg"
     },
     {
-      "id": "21",
+      "id": 21,
       "name": "Carita de Inocente",
       "artist": "Prince Royce",
       "otherArtist": null,
@@ -214,7 +214,7 @@
       "image": "/img/songs/prince-royce-carita-de-inocente.jpg"
     },
     {
-      "id": "22",
+      "id": 22,
       "name": "Rechazame",
       "artist": "Prince Royce",
       "otherArtist": null,
@@ -223,7 +223,7 @@
       "image": "/img/songs/prince-royce-rechazame.jpg"
     },
     {
-      "id": "23",
+      "id": 23,
       "name": "Xtra Cool",
       "artist": "Young John",
       "otherArtist": null,
@@ -232,7 +232,7 @@
       "image": "/img/songs/young-john-xtra-cool.jpg"
     },
     {
-      "id": "24",
+      "id": 24,
       "name": "Yo Voy",
       "artist": "Zion & Lennox",
       "otherArtist": [
@@ -243,7 +243,7 @@
       "image": "/img/songs/zion-lennox-yo-voy.jpg"
     },
     {
-      "id": "25",
+      "id": 25,
       "name": "WINE",
       "artist": "B Young",
       "otherArtist": null,
@@ -252,7 +252,7 @@
       "image": "/img/songs/b-young-wine.jpg"
     },
     {
-      "id": "26",
+      "id": 26,
       "name": "Anders Doet",
       "artist": "Architrackz",
       "otherArtist": [
@@ -263,7 +263,7 @@
       "image": "/img/songs/architrackz-anders-doet.jpg"
     },
     {
-      "id": "27",
+      "id": 27,
       "name": "Trop Parler",
       "artist": "Franglish",
       "otherArtist": null,
@@ -272,7 +272,7 @@
       "image": "/img/songs/franglish-trop-parler.jpg"
     },
     {
-      "id": "28",
+      "id": 28,
       "name": "El Clásico",
       "artist": "Lijpe",
       "otherArtist": [
@@ -283,7 +283,7 @@
       "image": "/img/songs/lijpe-el-clasico.jpg"
     },
     {
-      "id": "29",
+      "id": 29,
       "name": "Hurtin me",
       "artist": "Stefflon Don",
       "otherArtist": [
@@ -294,7 +294,7 @@
       "image": "/img/songs/stefflon-don-hurtin-me.jpg"
     },
     {
-      "id": "30",
+      "id": 30,
       "name": "Sans Effet",
       "artist": "Tayc",
       "otherArtist": null,
@@ -303,7 +303,7 @@
       "image": "/img/songs/tayc-sans-effet.jpg"
     },
     {
-      "id": "31",
+      "id": 31,
       "name": "Essence",
       "artist": "Wizkid",
       "otherArtist": [
@@ -314,7 +314,7 @@
       "image": "/img/songs/wizkid-essence.jpg"
     },
     {
-      "id": "32",
+      "id": 32,
       "name": "Validée",
       "artist": "Booba",
       "otherArtist": [
@@ -325,7 +325,7 @@
       "image": "/img/songs/booba-validee.jpg"
     },
     {
-      "id": "33",
+      "id": 33,
       "name": "African Queen",
       "artist": "KM",
       "otherArtist": [
@@ -336,7 +336,7 @@
       "image": "/img/songs/km-african-queen.jpg"
     },
     {
-      "id": "34",
+      "id": 34,
       "name": "Envy Us",
       "artist": "Stefflon Don",
       "otherArtist": [
@@ -347,7 +347,7 @@
       "image": "/img/songs/stefflon-don-envy-us.jpg"
     },
     {
-      "id": "35",
+      "id": 35,
       "name": "Carlo Colucci",
       "artist": "Driess",
       "otherArtist": null,
@@ -356,7 +356,7 @@
       "image": "/img/songs/driess-carlo-colucci.jpg"
     },
     {
-      "id": "36",
+      "id": 36,
       "name": "Pantat",
       "artist": "Kimberlee Ramirez",
       "otherArtist": [
@@ -368,7 +368,7 @@
       "image": "/img/songs/kimberlee-ramirez-pantat.jpg"
     },
     {
-      "id": "37",
+      "id": 37,
       "name": "Leven",
       "artist": "Jack",
       "otherArtist": [
