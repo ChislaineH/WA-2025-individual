@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/ChislaineH/WA-2025-individual/issues"
   },
-  "homepage": "https://github.com/ChislaineH/WA-2025-individual#readme"
+  "homepage": "https://github.com/ChislaineH/WA-2025-individual#readme",
+  "dependencies": {
+    "cors": "^2.8.5"
+  }
 }

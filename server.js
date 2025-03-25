@@ -1,8 +1,12 @@
+const cors = require('cors');
 const express = require('express');
 const fs = require('fs');
 const app = express();
 const port = 3000;
 
+app.use(cors({
+  origin: "http://127.0.0.1:5500" // for cross-origin requests
+}));
 app.use(express.json());
 
 // Functions for reading and writing songs data
