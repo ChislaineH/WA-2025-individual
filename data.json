@@ -378,5 +378,19 @@
       "duration": 2.09,
       "image": "/img/songs/jack-leven.jpg"
     }
+  ],
+  "playlists": [
+    {
+      "id": 1,
+      "name": "My Favorite Songs",
+      "image": "/img/music-note.jpg",
+      "songs": []
+    },
+    {
+      "id": 2,
+      "name": "Spring 2025",
+      "image": "/img/music-note.jpg",
+      "songs": []
+    }
   ]
 }

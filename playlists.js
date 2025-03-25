@@ -1,111 +1,161 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const playlistForm = document.getElementById("playlist-form");
-  const playlistInput = document.getElementById("playlist-name");
-  const playlistsContainer = document.getElementById("playlists-container");
-  const sortSelection = document.getElementById("sort");
-  const searchBar = document.getElementById("search");
+const API_URL = "http://localhost:3000/playlists";
 
-  // Get playlists from localStorage and set defaults
-  let playlists = JSON.parse(localStorage.getItem("playlists")) || [
-    { name: "My Favorite Songs", image: "/img/music-note.jpg" },
-  ];
+const playlistsContainer = document.getElementById("playlists-container");
+const playlistForm = document.getElementById("playlist-form");
+const playlistInput = document.getElementById("playlist-name");
+const sortSelection = document.getElementById("sort");
+const searchBar = document.getElementById("search");
 
-  // Set default sort to 'last-added'
-  sortSelection.value = "last-added";
+// Set default sort to 'last-added'
+sortSelection.value = "last-added";
 
-  // Render playlists
-  function renderPlaylists() {
-    playlistsContainer.innerHTML = "";
-    
-    const sortedPlaylists = sortPlaylist(); // Sort playlists by selected option
+async function fetchPlaylists() {
+  try {
+    const response = await fetch(API_URL);
 
-    // Filter search
-    const searchValue = searchBar ? searchBar.value.toLowerCase() : "";
-    const filteredPlaylists = sortedPlaylists.filter(playlist => 
-      playlist.name.toLowerCase().includes(searchValue)
-    );
+    if (!response.ok) {
+      throw new Error("Failure fetch playlists");
+    }
 
-    filteredPlaylists.forEach((playlist) => {
-      // Create card
-      const card = document.createElement("div");
-      card.classList.add("playlist-card");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetch playlists:", error);
 
-      // Clickable card
-      card.addEventListener("click", () => {
-        window.location.href = `playlist-songs.html?playlist=${encodeURIComponent(playlist.name)}`;
-      });
+    return [];
+  }
+}
 
-      // Create image
-      const img = document.createElement("img");
-      img.src = playlist.image;
-      img.alt = playlist.name;
+// Display playlists in Front-end
+async function loadPlaylists() {
+  const playlists = await fetchPlaylists();
+  playlistsContainer.innerHTML = "";
+  
+  const sortedPlaylists = sortPlaylist(playlists); // Sort playlists by selected option
+  const searchValue = searchBar ? searchBar.value.toLowerCase() : "";
+  const filteredPlaylists = sortedPlaylists.filter(playlist => 
+    playlist.name.toLowerCase().includes(searchValue)
+  );
 
-      // Create name
-      const name = document.createElement("h3");
-      name.textContent = playlist.name;
+  filteredPlaylists.forEach((playlist) => {
+    // Create card
+    const card = document.createElement("div");
+    card.classList.add("playlist-card");
 
-      // Delete button
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "X";
-      deleteButton.classList.add("delete-button");
-      deleteButton.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevention of click on card
-        deletePlaylist(playlist.name);
-      });
-      
-      card.appendChild(img);
-      card.appendChild(name);
-      card.appendChild(deleteButton);
-      playlistsContainer.appendChild(card);
+    // Clickable card
+    card.addEventListener("click", () => {
+      window.location.href = `playlist-songs.html?playlist=${encodeURIComponent(playlist.name)}`;
     });
-  }
 
-  // Sort playlists
-  function sortPlaylist() {
-    let sortedPlaylists = [...playlists];
+    // Create image
+    const img = document.createElement("img");
+    img.src = playlist.image;
+    img.alt = playlist.name;
 
-    switch (sortSelection.value) {
-      case "name-asc":
-        return sortedPlaylists.sort((a, b) => a.name.localeCompare(b.name));
-      case "name-desc":
-        return sortedPlaylists.sort((a, b) => b.name.localeCompare(a.name));
-      case "last-added":
-      default:
-        return [...sortedPlaylists.reverse()];
-    }
-  }
+    // Create name
+    const name = document.createElement("h3");
+    name.textContent = playlist.name;
 
-  // Event listeners
-  if (searchBar) searchBar.addEventListener("input", renderPlaylists); // Search when input is typed
-  sortSelection.addEventListener("change", renderPlaylists); // Sort when option is selected
-
-  // Delete playlist
-  function deletePlaylist(playlistName) {
-    playlists = playlists.filter(playlist => playlist.name !== playlistName); // Delete playlist from list
-    localStorage.setItem("playlists", JSON.stringify(playlists)); // Update localStorage
-    renderPlaylists(); // Show updated playlists
-  }
-
-  // Submit form
-  playlistForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const playlistName = playlistInput.value.trim();
-    if (playlistName && !playlists.some(playlist => playlist.name === playlistName)) {
-      playlists.push({ name: playlistName, image: "/img/music-note.jpg" });
-      localStorage.setItem("playlists", JSON.stringify(playlists));
-      renderPlaylists();
-      playlistInput.value = "";
-    }
+    // Delete button
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "X";
+    deleteButton.classList.add("delete-button");
+    deleteButton.addEventListener("click", (e) => {
+      e.stopPropagation(); // Prevention of click on card
+      deletePlaylist(playlist.id);
+    });
+    
+    card.appendChild(img);
+    card.appendChild(name);
+    card.appendChild(deleteButton);
+    playlistsContainer.appendChild(card);
   });
+}
 
-  // Hamburger menu
-  function toggleMenu() {
-    const navList = document.querySelector("nav ul");
-    navList.classList.toggle("show");
+// Sort playlists
+function sortPlaylist(playlists) {
+  let sortedPlaylists = [...playlists];
+
+  switch (sortSelection.value) {
+    case "name-asc":
+      return sortedPlaylists.sort((a, b) => a.name.localeCompare(b.name));
+    case "name-desc":
+      return sortedPlaylists.sort((a, b) => b.name.localeCompare(a.name));
+    case "last-added":
+    default:
+      return [...sortedPlaylists.reverse()];
   }
+}
 
-  // Hamburger event listener
-  document.getElementById("hamburger").addEventListener("click", toggleMenu);
+// Event listeners
+searchBar.addEventListener("input", loadPlaylists); // Search when input is typed
+sortSelection.addEventListener("change", loadPlaylists); // Sort when option is selected
 
-  renderPlaylists();
-})
+// Delete playlist
+async function deletePlaylist(playlistID) {
+  try {
+    const response = await fetch(`${API_URL}/${playlistID}`, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw new Error("Failure delete playlist");
+    }
+
+    loadPlaylists();
+  } catch (error) {
+    console.error("Error delete playlist:", error);
+  }
+}
+
+// Submit form
+playlistForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const playlistName = playlistInput.value.trim().toLowerCase();
+
+  if (!playlistName) return;
+
+  try {
+    const playlists = await fetchPlaylists();
+    const duplicatePlaylist = playlists.find((playlist) => playlist.name.toLowerCase() === playlistName);
+
+    if (duplicatePlaylist) {
+      alert("Playlist already exists");
+      return;
+    }
+    
+    const newPlaylist = {
+      name: playlistName,
+      image: "/img/playlist.jpg",
+      songs: []
+    };
+
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPlaylist),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failure add playlist");
+    }
+
+    playlistInput.value = "";
+    loadPlaylists();
+  } catch (error) {
+    console.error("Error add playlist:", error);
+  }
+});
+
+// Hamburger menu
+function toggleMenu() {
+  const navList = document.querySelector("nav ul");
+  navList.classList.toggle("show");
+}
+
+// Hamburger event listener
+document.getElementById("hamburger").addEventListener("click", toggleMenu);
+
+// Load playlists
+document.addEventListener("DOMContentLoaded", () => loadPlaylists());
