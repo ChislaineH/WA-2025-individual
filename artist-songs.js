@@ -1,6 +1,5 @@
-import songs from "./data.js";
+const API_URL = "http://localhost:3000/songs";
 
-const savedSongs = JSON.parse(localStorage.getItem("songs")) || [];
 const songsList = document.getElementById("artist-songs-list");
 const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
@@ -21,14 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const decodedImageUrl = decodeURIComponent(imageUrl);
 
-    // Check if img exists in data.js
-    const imgExists = songs.some(song => {
-      if (!song.artist) return false;
-      const expectedImg = `/img/artists/${song.artist.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-&]/g, '')}.jpg`;
-      return expectedImg === decodedImageUrl;
-    })
-
-    return imgExists ? decodedImageUrl : "/img/music-note.jpg";
+    return decodedImageUrl;
   }
 
   // Format duration
@@ -73,13 +65,30 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Load artist songs
-  function loadArtistSongs(searchValue = "") {
+  // Fetch songs from API
+  async function fetchSongs() {
+    try {
+      const response = await fetch(API_URL);
+  
+      if (!response.ok) {
+        throw new Error("Failure fetch songs");
+      }
+  
+      return await response.json();
+    } catch (error) {
+      console.error("Error fetch songs:", error);
+  
+      return [];
+    }
+  }
+
+  // Display songs in Front-end
+  async function loadArtistSongs(searchValue = "") {
     const artist = getArtistFromURL();
     const imageUrl = getImageFromURL();
 
     if (!artist) {
-      window.location.href = "index.html";
+      window.location.href = "all-songs.html";
       return;
     }
 
@@ -88,8 +97,10 @@ document.addEventListener("DOMContentLoaded", () => {
     imgElement.src = imageUrl;
     imgElement.alt = artist;
 
-    // Get all unique songs (remove duplicates on name + artist)
-    const allSongs = [...songs, ...savedSongs];
+    // Get all songs from API
+    const allSongs = await fetchSongs();
+
+    // Get unique songs (remove duplcates)
     const uniqueSongs = Array.from(
       new Map(allSongs.map(song => [`${song.name.toLowerCase()}-${song.artist.toLowerCase()}`, song])).values()
     );
