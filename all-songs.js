@@ -62,10 +62,10 @@ songForm.addEventListener("submit", async (e) => {
 
   const minutes = parseInt(document.getElementById("duration-minutes").value, 10);
   const seconds = parseInt(document.getElementById("duration-seconds").value, 10);
-  const duration = minutes + seconds / 60;
+  const duration = minutes + (seconds / 100);
 
   // Validation duration
-  if (isNaN(minutes) || isNaN(seconds || seconds< 0 || seconds >= 60)) {
+  if (isNaN(minutes) || isNaN(seconds) || seconds< 0 || seconds >= 60) {
     alert("Please enter a valid duration, seconds need to be between 0 and 59.");
     return;
   }
@@ -74,7 +74,7 @@ songForm.addEventListener("submit", async (e) => {
   const newSong = {
     name: document.getElementById("song-name").value.trim(),
     artist: document.getElementById("artist").value.trim(),
-    otherArtist: document.getElementById("other-artists").value.trim(),
+    otherArtist: document.getElementById("other-artists").value.trim() || null,
     year: document.getElementById("year").value.trim(),
     duration: duration,
     image: "/img/music-note.jpg"
@@ -207,9 +207,8 @@ function updatePagination(totalSongs) {
 
 // Format duration
 function formatDuration(duration) {
-  const totalSeconds = Math.round(duration * 60);
-  const min = Math.floor(totalSeconds / 60);
-  const sec = totalSeconds % 60;
+  const min = Math.floor(duration);
+  const sec = Math.round((duration - min) * 100);
   
   return `${min}:${sec.toString().padStart(2, "0")}`;
 }
