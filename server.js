@@ -75,19 +75,22 @@ app.put("/songs/:id", (req, res) => {
 
 // Delete song by ID
 app.delete("/songs/:id", (req, res) => {
+  const songIdToDelete = req.params.id;
   const songData = readSongs();
-  const song = songData.songs.find((song) => song.id === Number(req.params.id));
+  const songIndex = songData.songs.findIndex((song) => {
+    return song.id === songIdToDelete
+  });
 
   // Check if song exists
-  if (!song) {
+  if (songIndex === -1) {
     return res.status(404).json({
       error: "Song not found"
     });
   }
 
   // Update songs
-  const newSongsData = songData.songs.filter((song) => song.id !== Number(req.params.id));
-  writeSongs({ songs: newSongsData });
+  songData.songs.splice(songIndex, 1);
+  writeSongs(songData);
 
   // Response deleted song
   res.json({ message: "Song deleted"});
