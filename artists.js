@@ -4,6 +4,9 @@ const artistContainer = document.getElementById("artists-container");
 const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
 
+let allArtists = [];
+let currentFilteredArtists = null;
+
 // Fetch songs from API and only get unique artsts
 async function fetchArtists() {
   try {
@@ -31,8 +34,7 @@ async function fetchArtists() {
 
 // Display artists in Front-end
 async function loadArtists(filteredArtists = null) {
-  const allArtists = await fetchArtists();
-  const artistsToShow = filteredArtists || allArtists;
+  const artistsToShow = filteredArtists !== null ? filteredArtists : await fetchArtists();
 
   artistContainer.innerHTML = "";
 
@@ -69,11 +71,20 @@ async function loadArtists(filteredArtists = null) {
 }
 
 // Search
-searchBar.addEventListener("input", async () => {
+searchBar.addEventListener("input", () => {
   const searchValue = searchBar.value.toLowerCase();
-  const allArtists = await fetchArtists();
-  const filteredArtists = allArtists.filter((artist) => artist.toLowerCase().includes(searchValue));
-  loadArtists(filteredArtists);
+
+  if (searchValue === "") {
+    currentFilteredArtists = null;
+    loadArtists(allArtists); // Show all artists when search is empty
+  } else {
+    const filteredArtists = allArtists.filter((artist) => 
+      artist.toLowerCase().includes(searchValue)
+    );
+
+    currentFilteredArtists = filteredArtists; // Store filtered songs
+    loadArtists(currentFilteredArtists);
+  }
 });
 
 // Sort artists
@@ -87,8 +98,20 @@ function sortArtists(artistArray) {
   );
 }
 
-// Sort listeners
-sortSelection.addEventListener("change", () => loadArtists());
+// Sort event listener
+sortSelection.addEventListener("change", () => {
+  const searchValue = searchBar.value.toLowerCase();
+
+  let artistsToSort = allArtists;
+
+  if (searchValue !== "") {
+    artistsToSort = allArtists.filter((artist) => 
+      artist.toLowerCase().includes(searchValue)
+    );
+  }
+  
+  loadArtists(artistsToSort);
+});
 
 // Hamburger menu
 function toggleMenu() {
@@ -100,4 +123,7 @@ function toggleMenu() {
 document.getElementById("hamburger").addEventListener("click", toggleMenu);
 
 // Load artists
-document.addEventListener("DOMContentLoaded", () => loadArtists());
+document.addEventListener("DOMContentLoaded", async() => {
+  allArtists = await fetchArtists();
+  loadArtists(allArtists);
+});
