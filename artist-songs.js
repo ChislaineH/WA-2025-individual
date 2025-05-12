@@ -162,7 +162,10 @@ document.addEventListener("DOMContentLoaded", () => {
   searchBar.addEventListener("input", searchSongs);
 
   // Sort event listener
-  sortSelection.addEventListener("change", () => loadArtistSongs());
+  sortSelection.addEventListener("change", () => {
+    const searchValue = searchBar.value.toLowerCase();
+    loadArtistSongs(searchValue);
+  });
 
   // Hamburger menu
   function toggleMenu() {
