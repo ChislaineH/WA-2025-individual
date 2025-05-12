@@ -9,6 +9,7 @@ const paginationContainer = document.getElementById("pagination");
 // Pagination
 const songsPerPage = 5;
 let currentPage = 1;
+let currentFilteredSongs = null;
 
 // Fetch songs from API
 async function fetchSongs() {
@@ -142,13 +143,14 @@ searchBar.addEventListener("input", async () => {
     )
   );
 
-  loadSongs(filteredSongs);
+  currentFilteredSongs = filteredSongs; // Store filtered songs for pagination
+  loadSongs(currentFilteredSongs);
 });
 
 // Sort event listener
 sortSelection.addEventListener("change", () => {
   currentPage = 1; // Reset when sorting to first page
-  loadSongs();
+  loadSongs(currentFilteredSongs); // Show filtered songs when searching
 });
 
 // Sort
