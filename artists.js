@@ -16,9 +16,10 @@ async function fetchArtists() {
     const songs = await response.json();
 
     // Get artists from songs (artists and otherArtists)
-    const allArtists = songs.flatMap((song) => 
-      [song.artist, ...(Array.isArray(song.otherArtist) ? song.otherArtist : [])]
-    ).filter(artist => artist);
+    const allArtists = songs.flatMap((song) => {
+      const otherArtists = Array.isArray(song.otherArtist) ? song.otherArtist : (song.otherArtist ? [song.otherArtist] : []);
+      return [song.artist, ...otherArtists];
+    }).filter(artist => artist);
 
     return [...new Set(allArtists)]; // Get unique artists => remove duplicate artists
   } catch (error) {
