@@ -28,8 +28,8 @@ async function fetchSongs() {
 }
 
 // Display songs in Front-end
-async function loadSongs() {
-  const songs = await fetchSongs();
+async function loadSongs(filtered = null) {
+  const songs = filtered || await fetchSongs();
   songsList.innerHTML = "";
 
   const sortedSongs = sortSongs(songs); // Sort playlists by selected option
@@ -143,6 +143,12 @@ searchBar.addEventListener("input", async () => {
   );
 
   loadSongs(filteredSongs);
+});
+
+// Sort event listener
+sortSelection.addEventListener("change", () => {
+  currentPage = 1; // Reset when sorting to first page
+  loadSongs();
 });
 
 // Sort
