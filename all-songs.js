@@ -69,9 +69,15 @@ songForm.addEventListener("submit", async (e) => {
     alert("Please enter a valid duration, seconds need to be between 0 and 59.");
     return;
   }
+
+  // Check what is the highest ID
+  const songs = await fetchSongs();
+  const highestId = songs.reduce((maxId, song) => Math.max(maxId, song.id), 0);
+  const newId = (highestId + 1).toString();
   
   // Create song object
   const newSong = {
+    id: newId,
     name: document.getElementById("song-name").value.trim(),
     artist: document.getElementById("artist").value.trim(),
     otherArtist: document.getElementById("other-artists").value.trim() || null,

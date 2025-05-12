@@ -25,9 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Format duration
   function formatDuration(duration) {
-    const totalSeconds = Math.round(duration * 60);
-    const min = Math.floor(totalSeconds / 60);
-    const sec = totalSeconds % 60;
+    const min = Math.floor(duration);
+    const sec = Math.round((duration - min) * 100);
     
     return `${min}:${sec.toString().padStart(2, "0")}`;
   }
@@ -106,10 +105,14 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     // Filter songs from artist
-    const artistSongs = uniqueSongs.filter(song =>
-      song.artist.toLowerCase() === artist.toLowerCase() ||
-      (Array.isArray(song.otherArtist) && song.otherArtist.some(a => a.toLowerCase() === artist.toLowerCase()))
-    );
+    const artistSongs = uniqueSongs.filter(song => {
+      const isArtist = song.artist.toLowerCase() === artist.toLowerCase();
+      const isOtherArtist = Array.isArray(song.otherArtist) 
+        ? song.otherArtist.some(a => a.toLowerCase() === artist.toLowerCase())
+        : song.otherArtist && song.otherArtist.toLowerCase() === artist.toLowerCase();
+
+      return isArtist || isOtherArtist;
+    });
 
     // otherArtist column: delete artist (when in otherArtists) or add artist (to otherArtist column)
     const checkOtherArtists = artistSongs.map(song => {

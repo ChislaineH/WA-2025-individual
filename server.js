@@ -37,8 +37,13 @@ app.get("/songs/:id", (req, res) => {
 // Post new song
 app.post("/songs", (req, res) => {
   const songData = readSongs();
-  const maxID = Math.max(...songData.songs.map(song => song.id), 0); // Get max ID from songData
-  const newSong = { id: maxID + 1, ...req.body };
+
+  // Convert IDs to numbers and check what is the highest ID
+  const highestId = songData.songs.reduce((maxId, song) => {
+    return Math.max(maxId, parseInt(song.id, 10));
+  }, 0);
+  const newId = (highestId + 1).toString();
+  const newSong = { id: newId, ...req.body };
 
   // Add new song
   songData.songs.push(newSong);
