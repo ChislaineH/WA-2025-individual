@@ -51,7 +51,6 @@ async function loadArtists(filteredArtists = null) {
     // Convert artistname to filename
     const imageName = artist.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-&]/g, '') + '.jpg';
     const imageSrc = `/img/artists/${imageName}`;
-    console.log("Image src:" + imageSrc);
 
     const img = document.createElement("img");
     img.src = imageSrc;
@@ -59,6 +58,9 @@ async function loadArtists(filteredArtists = null) {
 
     img.onerror = function() {
       img.src = "/img/music-note.jpg";
+      card.addEventListener("click", () => {
+        window.location.href = `artist-songs.html?artist=${encodeURIComponent(artist)}&image=${encodeURIComponent("/img/music-note.jpg")}`;
+      });
     }
 
     const name = document.createElement("h3");
