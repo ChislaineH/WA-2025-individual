@@ -69,11 +69,21 @@ th, td {
   text-align: left;
 }
 
+.editable-text {
+  display: inline-block;
+}
+
+.editing-text {
+  border: 1px solid purple;
+  padding: 4px;
+  border-radius: 2px;
+}
+
 #search, #sort {
   margin: 16px;
 }
 
-/* artists / playlists */
+/* artists */
 .cards-container {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -82,7 +92,7 @@ th, td {
   margin: 40px 240px;
 }
 
-.artist-card, .playlist-card {
+.artist-card {
   text-align: center;
   padding: 10px;
   border: 1px solid #ddd;
@@ -91,7 +101,7 @@ th, td {
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.artist-card img, .playlist-card img {
+.artist-card img {
   width: 100%;
   max-width: 144px;
   border-radius: 10%;
@@ -149,17 +159,12 @@ th, td {
   }
 
   #song-form input, 
-  #song-form button, 
-  #playlist-form input, 
-  #playlist-form button,
-  #add-song-container input,
-  #add-song-container select,
-  #add-song-container button {
+  #song-form button {
     width: 90%;
     margin: 4px 16px;
   }
 
-  #song-form button, #playlist-form button {
+  #song-form button {
     margin-bottom: 24px;
   }
 
@@ -177,7 +182,7 @@ th, td {
     margin: 20px;
   }
 
-  #artist-img, #playlist-img {
+  #artist-img {
     width: 150px;
     height: 150px;
   }

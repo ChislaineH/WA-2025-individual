@@ -43,17 +43,21 @@ async function loadSongs(filtered = null) {
     const row = document.createElement("tr");
     row.innerHTML = `
       <td><img src="${song.image || "/img/music-note.jpg"}" alt="${song.name} image" width="80" height="80"></td>
-      <td>${song.name}</td>
-      <td>${song.artist}</td>
-      <td>${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</td>
-      <td>${song.year}</td>
-      <td>${formatDuration(song.duration)}</td>
-      <td><button class="delete-btn" data-id="${song.id}">X</button></td>
+      <td><span class="editable-text" contenteditable="false">${song.name}</span></td>
+      <td><span class="editable-text" contenteditable="false">${song.artist}</span></td>
+      <td><span class="editable-text" contenteditable="false">${Array.isArray(song.otherArtist) ? song.otherArtist.join(", ") : song.otherArtist || "-"}</span></td>
+      <td><span class="editable-text" contenteditable="false">${song.year}</span></td>
+      <td><span class="editable-text" contenteditable="false">${formatDuration(song.duration)}</span></td>
+      <td>
+        <button class="edit-btn" data-id="${song.id}">EDIT</button>
+        <button class="delete-btn" data-id="${song.id}">DELETE</button>
+      </td>
     `;
     songsList.appendChild(row);
   });
 
   updatePagination(totalSongs);
+  editEventListener();
   deleteEventListener();
 }
 
@@ -106,6 +110,130 @@ songForm.addEventListener("submit", async (e) => {
     console.error("Error add song:", error);
   }
 });
+
+// Edit song via API
+function editEventListener() {
+  document.querySelectorAll(".edit-btn").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const row = e.target.closest("tr");
+      const songId = e.target.getAttribute("data-id");
+      const isEditing = e.target.textContent === "SAVE";
+      const cells = row.querySelectorAll("td");
+      const [imageCell, nameCell, artistCell, otherArtistCell, yearCell, durationCell] = cells;
+
+      // Selection all edit and delete buttons
+      const allEditButtons = document.querySelectorAll(".edit-btn");
+      const allDeleteButtons = document.querySelectorAll(".delete-btn");
+
+      if (isEditing) {
+        // Save changes
+        const updatedSong = {
+          id: songId,
+          name: nameCell.textContent.trim(),
+          artist: artistCell.textContent.trim(),
+          otherArtist: otherArtistCell.textContent.split(",").map(artist => artist.trim()),
+          year: parseInt(yearCell.textContent.trim(), 10),
+          duration: parseDuration(durationCell.textContent.trim())
+        };
+
+        const originalSong = JSON.parse(row.dataset.originalSong);
+
+        const isSameSong = 
+          updatedSong.name === originalSong.name &&
+          updatedSong.artist === originalSong.artist &&
+          JSON.stringify(updatedSong.otherArtist) === JSON.stringify(originalSong.otherArtist) &&
+          updatedSong.year === originalSong.year &&
+          updatedSong.duration === originalSong.duration;
+
+        if (isSameSong) {
+          console.log("No changes, but song is saved...")
+        }
+
+        try {
+          const response = await fetch(`${API_URL}/${songId}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedSong)
+          });
+
+          if (!response.ok) {
+            throw new Error("Failure update song");
+          }
+
+          // Disable editing
+          const editableSpans = [
+            nameCell.querySelector(".editable-text"),
+            artistCell.querySelector(".editable-text"),
+            otherArtistCell.querySelector(".editable-text"),
+            yearCell.querySelector(".editable-text"),
+            durationCell.querySelector(".editable-text")
+          ];
+
+          editableSpans.forEach(span => {
+            span.contentEditable = "false";
+            span.classList.remove("editing-text");
+          })
+
+          e.target.textContent = "EDIT";
+
+          // Show all buttons
+          allEditButtons.forEach(button => button.style.visibility = "visible");
+          allDeleteButtons.forEach(button => button.style.visibility = "visible");
+
+          await loadSongs();
+        } catch (error) {
+          console.error("Error update song:", error);
+        }
+      } else {
+        // Edit song
+        const originalSong = {
+          name: nameCell.textContent.trim(),
+          artist: artistCell.textContent.trim(),
+          otherArtist: otherArtistCell.textContent.split(",").map(artist => artist.trim()),
+          year: parseInt(yearCell.textContent.trim(), 10),
+          duration: parseDuration(durationCell.textContent.trim())
+        };
+
+        row.dataset.originalSong= JSON.stringify(originalSong);
+
+        // Enable editing
+        const editableSpans = [
+          nameCell.querySelector(".editable-text"),
+          artistCell.querySelector(".editable-text"),
+          otherArtistCell.querySelector(".editable-text"),
+          yearCell.querySelector(".editable-text"),
+          durationCell.querySelector(".editable-text")
+        ];
+
+        editableSpans.forEach(span => {
+          span.contentEditable = "true";
+          span.classList.add("editing-text");
+        })
+
+        e.target.textContent = "SAVE";
+
+        // Hide all buttons except the clicked edit button (changes in save)
+        allEditButtons.forEach(button => {
+          if (button !== e.target) button.style.visibility = "hidden";
+        });
+        allDeleteButtons.forEach(button => {
+          button.style.visibility = "hidden";
+        });
+      }
+    })
+  });
+}
+
+// Parse duration from string to number
+function parseDuration(durationString) {
+  const [minString, secString] = durationString.split(":");
+  const min = parseInt(minString, 10);
+  const sec = parseInt(secString, 10);
+
+  return min + (sec / 100);
+}
 
 // Delete song via API
 function deleteEventListener() {
