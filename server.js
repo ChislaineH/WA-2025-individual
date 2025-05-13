@@ -22,8 +22,9 @@ app.get('/songs', (req, res) => {
 
 // Get song by ID
 app.get("/songs/:id", (req, res) => {
+  const songIdToDelete = req.params.id;
   const songData = readSongs();
-  const song = songData.songs.find((song) => song.id === Number(req.params.id));
+  const song = songData.songs.find((song) => song.id === songIdToDelete);
 
   if (!song) {
     return res.status(404).json({
@@ -55,8 +56,9 @@ app.post("/songs", (req, res) => {
 
 // Update song by ID
 app.put("/songs/:id", (req, res) => {
+  const songIdToDelete = req.params.id;
   const songData = readSongs();
-  const songIndex = songData.songs.findIndex((song) => song.id === Number(req.params.id));
+  const songIndex = songData.songs.findIndex((song) => song.id === songIdToDelete);
 
   // songIndex will be -1 when song not found
   if (songIndex === -1) {
