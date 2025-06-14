@@ -103,6 +103,30 @@ async function updateSongs() {
   await loadSongs(currentFilteredSongs, true); // Load filtered songs
 }
 
+// Update songs after search/sort/pagination
+async function updateSongs() {
+  if (allSongs.length === 0) {
+    allSongs = await fetchSongs();
+  }
+
+  // Search songs
+  const searchValue = searchBar.value.toLowerCase();
+
+  let filteredSongs = allSongs.filter((song) => {
+    const name = song.name.toLowerCase() || "";
+    const artist = song.artist.toLowerCase() || "";
+    const otherArtists = Array.isArray(song.otherArtist) 
+      ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue))
+      : (song.otherArtist?.toLowerCase().includes(searchValue) || false);
+    
+    return name.includes(searchValue) || artist.includes(searchValue) || otherArtists;
+  });
+
+  currentFilteredSongs = filteredSongs; // Stores filtered songs for pagination
+
+  await loadSongs(currentFilteredSongs, true); // Load filtered songs
+}
+
 // Submit form (add song) via API
 songForm.addEventListener("submit", async (e) => {
   e.preventDefault(); 
