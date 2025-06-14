@@ -1,6 +1,5 @@
 const API_URL = "http://localhost:3000/songs";
 
-// Elements of the page
 const songsList = document.getElementById("songs-list");
 const songForm = document.getElementById("song-form");
 const searchBar = document.getElementById("search");
@@ -21,7 +20,7 @@ async function fetchSongs() {
 
     if (!response.ok) throw new Error("Failure fetch songs");
 
-    return await response.json(); 
+    return await response.json();
   } catch (error) {
     console.error("Error fetch songs:", error);
 
@@ -55,7 +54,6 @@ async function loadSongs(filtered = null, resetPage = false) {
   const end = start + songsPerPage;
   const paginatedSongs = sortedSongs.slice(start, end);
 
-  // Add songs to the table
   paginatedSongs.forEach((song) => {
     const row = document.createElement("tr");
     row.innerHTML = `
@@ -73,34 +71,9 @@ async function loadSongs(filtered = null, resetPage = false) {
     songsList.appendChild(row);
   });
 
-  updatePagination(sortedSongs.length); // Update pagination based on total songs
-  editEventListener(); // Add edit event listeners
-  deleteEventListener(); // Add delete event listeners
-}
-
-// Update songs after search/sort/pagination
-async function updateSongs() {
-  if (allSongs.length === 0) {
-    allSongs = await fetchSongs();
-  }
-
-  // Search songs
-  const searchValue = searchBar.value.toLowerCase();
-
-  // Filter songs based on search input
-  let filteredSongs = allSongs.filter((song) => {
-    const name = song.name.toLowerCase() || "";
-    const artist = song.artist.toLowerCase() || "";
-    const otherArtists = Array.isArray(song.otherArtist) 
-      ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue))
-      : (song.otherArtist?.toLowerCase().includes(searchValue) || false);
-    
-    return name.includes(searchValue) || artist.includes(searchValue) || otherArtists;
-  });
-
-  currentFilteredSongs = filteredSongs; // Stores filtered songs for pagination
-
-  await loadSongs(currentFilteredSongs, true); // Load filtered songs
+  updatePagination(sortedSongs.length);
+  editEventListener();
+  deleteEventListener();
 }
 
 // Update songs after search/sort/pagination
@@ -158,7 +131,6 @@ songForm.addEventListener("submit", async (e) => {
   };
 
   try {
-    // Send song to API
     const response = await fetch(API_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
