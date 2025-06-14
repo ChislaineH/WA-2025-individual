@@ -6,6 +6,8 @@ const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
 const paginationContainer = document.getElementById("pagination");
 
+let allSongs = [];
+
 // Pagination
 const songsPerPage = 5;
 let currentPage = 1;
@@ -16,9 +18,7 @@ async function fetchSongs() {
   try {
     const response = await fetch(API_URL);
 
-    if (!response.ok) {
-      throw new Error("Failure fetch songs");
-    }
+    if (!response.ok) throw new Error("Failure fetch songs");
 
     return await response.json();
   } catch (error) {
@@ -28,13 +28,28 @@ async function fetchSongs() {
   }
 }
 
-// Display songs in Front-end
-async function loadSongs(filtered = null) {
-  const songs = filtered || await fetchSongs();
-  songsList.innerHTML = "";
+// Display songs in Front-end (with filter/sort/pagination)
+async function loadSongs(filtered = null, resetPage = false) {
+  if (resetPage) currentPage = 1;
+  if (filtered !== null) currentFilteredSongs = filtered; // Stores filtered songs for pagination
+
+  let songs;
+  if (currentFilteredSongs !== null && currentFilteredSongs.length > 0) {
+    songs = currentFilteredSongs; // Use filtered songs if available
+  } else if (allSongs.length > 0) {
+    songs = allSongs; // Use all songs if no filter applied
+  } else {
+    songs = await fetchSongs(); // Fetch songs if no data available
+  }
+
+  if (allSongs.length === 0 && currentFilteredSongs === null) allSongs = songs; // Fill when empty
 
   const sortedSongs = sortSongs(songs); // Sort playlists by selected option
-  const totalSongs = sortedSongs.length;
+
+  const totalPages = Math.ceil(sortedSongs.length / songsPerPage);
+  if (currentPage > totalPages) currentPage = totalPages || 1; // Reset to last page if current page exceeds total pages
+  songsList.innerHTML = "";
+
   const start = (currentPage - 1) * songsPerPage;
   const end = start + songsPerPage;
   const paginatedSongs = sortedSongs.slice(start, end);
@@ -56,9 +71,33 @@ async function loadSongs(filtered = null) {
     songsList.appendChild(row);
   });
 
-  updatePagination(totalSongs);
+  updatePagination(sortedSongs.length);
   editEventListener();
   deleteEventListener();
+}
+
+// Update songs after search/sort/pagination
+async function updateSongs() {
+  if (allSongs.length === 0) {
+    allSongs = await fetchSongs();
+  }
+
+  // Search songs
+  const searchValue = searchBar.value.toLowerCase();
+
+  let filteredSongs = allSongs.filter((song) => {
+    const name = song.name.toLowerCase() || "";
+    const artist = song.artist.toLowerCase() || "";
+    const otherArtists = Array.isArray(song.otherArtist) 
+      ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue))
+      : (song.otherArtist?.toLowerCase().includes(searchValue) || false);
+    
+    return name.includes(searchValue) || artist.includes(searchValue) || otherArtists;
+  });
+
+  currentFilteredSongs = filteredSongs; // Stores filtered songs for pagination
+
+  await loadSongs(currentFilteredSongs, true); // Load filtered songs
 }
 
 // Submit form (add song) via API
@@ -94,17 +133,14 @@ songForm.addEventListener("submit", async (e) => {
   try {
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newSong)
     });
 
-    if (!response.ok) {
-      throw new Error("Failure add song");
-    }
+    if (!response.ok) throw new Error("Failure add song");
 
-    loadSongs();
+    allSongs = await fetchSongs(); // Refresh all songs after adding new one
+    await loadSongs(currentFilteredSongs, true); // Load songs with current filtered songs
     songForm.reset();
   } catch (error) {
     console.error("Error add song:", error);
@@ -152,15 +188,11 @@ function editEventListener() {
         try {
           const response = await fetch(`${API_URL}/${songId}`, {
             method: "PUT",
-            headers: {
-              "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(updatedSong)
           });
 
-          if (!response.ok) {
-            throw new Error("Failure update song");
-          }
+          if (!response.ok) throw new Error("Failure update song");
 
           // Disable editing
           const editableSpans = [
@@ -182,7 +214,8 @@ function editEventListener() {
           allEditButtons.forEach(button => button.style.visibility = "visible");
           allDeleteButtons.forEach(button => button.style.visibility = "visible");
 
-          await loadSongs();
+          allSongs = await fetchSongs(); // Refresh all songs after editing
+          await loadSongs(currentFilteredSongs, false); // Load songs with current filtered songs
         } catch (error) {
           console.error("Error update song:", error);
         }
@@ -246,11 +279,10 @@ function deleteEventListener() {
           method: "DELETE"
         });
         
-        if (!response.ok) {
-          throw new Error("Failure delete song");
-        }
+        if (!response.ok) throw new Error("Failure delete song");
 
-        loadSongs();
+        allSongs = await fetchSongs(); // Refresh all songs after deletion
+        await loadSongs(currentFilteredSongs, false); // Load songs with current filtered songs
       } catch (error) {
         console.error("Error delete song:", error);
       }
@@ -260,25 +292,14 @@ function deleteEventListener() {
 
 // Search
 searchBar.addEventListener("input", async () => {
-  const searchValue = searchBar.value.toLowerCase();
-  const allSongs = await fetchSongs();
-  const filteredSongs = allSongs.filter((song) => 
-    song.name.toLowerCase().includes(searchValue) ||
-    song.artist.toLowerCase().includes(searchValue) ||
-    (Array.isArray(song.otherArtist) 
-      ? song.otherArtist.some(artist => artist.toLowerCase().includes(searchValue)) 
-      : song.otherArtist?.toLowerCase().includes(searchValue)
-    )
-  );
-
-  currentFilteredSongs = filteredSongs; // Store filtered songs for pagination
-  loadSongs(currentFilteredSongs);
+  currentPage = 1; // Reset when searching to first page
+  await updateSongs(); // Update songs when searching
 });
 
 // Sort event listener
-sortSelection.addEventListener("change", () => {
+sortSelection.addEventListener("change", async () => {
   currentPage = 1; // Reset when sorting to first page
-  loadSongs(currentFilteredSongs); // Show filtered songs when searching
+  await loadSongs(currentFilteredSongs, false); // Load songs with current filtered songs
 });
 
 // Sort
@@ -335,13 +356,11 @@ function updatePagination(totalSongs) {
     button.textContent = i;
     button.classList.add("pagination-btn");
 
-    if (i === currentPage) { 
-      button.classList.add("active");
-    }
+    if (i === currentPage) button.classList.add("active");
 
-    button.addEventListener("click", () => {
+    button.addEventListener("click", async () => {
       currentPage = i;
-      loadSongs();
+      await loadSongs(currentFilteredSongs, false);
     });
     paginationContainer.appendChild(button);
   }
@@ -365,4 +384,7 @@ function toggleMenu() {
 document.getElementById("hamburger").addEventListener("click", toggleMenu);
 
 // Load songs
-document.addEventListener("DOMContentLoaded", () => loadSongs());
+document.addEventListener("DOMContentLoaded", async () => {
+  allSongs = await fetchSongs(); // Fetch all songs on page load
+  await loadSongs();
+});
