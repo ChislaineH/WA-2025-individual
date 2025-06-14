@@ -1,5 +1,6 @@
 const API_URL = "http://localhost:3000/songs";
 
+// Elements of the page
 const artistContainer = document.getElementById("artists-container");
 const searchBar = document.getElementById("search");
 const sortSelection = document.getElementById("sort");
