@@ -42,6 +42,15 @@ nav ul li a {
   font-size: 18px;
 }
 
+input {
+  width: 200px;
+  margin: 2px;
+}
+
+button {
+  margin: 4px 0;
+}
+
 #hamburger {
   display: none;
   font-size: 40px;
@@ -129,7 +138,20 @@ th, td {
 }
 
 /* MEDIA QUERIES */
+@media (max-width: 1400px) {
+  .cards-container {
+    grid-template-columns: repeat(4, 1fr);
+    margin: 20px;
+  }
+}
+
 @media (max-width: 768px) {
+  .cards-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 650px) {
   header {
     justify-content: space-between;
   }
@@ -179,7 +201,6 @@ th, td {
 
   .cards-container {
     grid-template-columns: repeat(2, 1fr);
-    margin: 20px;
   }
 
   #artist-img {
