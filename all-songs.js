@@ -122,9 +122,12 @@ songForm.addEventListener("submit", async (e) => {
   // Create song object
   const newSong = {
     id: newId,
-    name: document.getElementById("song-name").value.trim(),
-    artist: document.getElementById("artist").value.trim(),
-    otherArtist: document.getElementById("other-artists").value.trim() || null,
+    name: capitalizeFirstLetter(document.getElementById("song-name").value.trim()),
+    artist: capitalizeFirstLetter(document.getElementById("artist").value.trim()),
+    otherArtist: document.getElementById("other-artists").value
+      .split(",")
+      .map(artist => capitalizeFirstLetter(artist.trim()))
+      .filter(artist => artist.length > 0) || [],
     year: document.getElementById("year").value.trim(),
     duration: duration,
     image: "/img/music-note.jpg"
@@ -165,9 +168,11 @@ function editEventListener() {
         // Save changes
         const updatedSong = {
           id: songId,
-          name: nameCell.textContent.trim(),
-          artist: artistCell.textContent.trim(),
-          otherArtist: otherArtistCell.textContent.split(",").map(artist => artist.trim()),
+          name: capitalizeFirstLetter(nameCell.textContent.trim()),
+          artist: capitalizeFirstLetter(artistCell.textContent.trim()),
+          otherArtist: otherArtistCell.textContent
+            .split(",")
+            .map(artist => capitalizeFirstLetter(artist.trim())),
           year: parseInt(yearCell.textContent.trim(), 10),
           duration: parseDuration(durationCell.textContent.trim())
         };
@@ -272,6 +277,12 @@ function parseDuration(durationString) {
   const sec = parseInt(secString, 10);
 
   return min + (sec / 100);
+}
+
+// Capitalize first letter
+function capitalizeFirstLetter(string) {
+  if (!string) return "";
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 // Delete song via API

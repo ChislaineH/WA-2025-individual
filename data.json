@@ -372,11 +372,23 @@
       "name": "Leven",
       "artist": "Jack",
       "otherArtist": [
-        ""
+        "Ashafar"
       ],
       "year": 2019,
       "duration": 2.09,
       "image": "/img/songs/jack-leven.jpg"
+    },
+    {
+      "id": "38",
+      "name": "Testnaam",
+      "artist": "Testartiest",
+      "otherArtist": [
+        "Eerste artiest",
+        "Tweede artiest"
+      ],
+      "year": 2025,
+      "duration": 2.34,
+      "image": "/img/music-note.jpg"
     }
   ]
 }
