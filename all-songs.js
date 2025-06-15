@@ -172,6 +172,12 @@ function editEventListener() {
           duration: parseDuration(durationCell.textContent.trim())
         };
 
+        // Validation for editing
+        if (!updatedSong.name || !updatedSong.artist || isNaN(updatedSong.year) || isNaN(updatedSong.duration)) {
+          alert("Je kunt geen lege velden opslaan.");
+          return;
+        }
+
         const originalSong = JSON.parse(row.dataset.originalSong);
 
         const isSameSong = 
